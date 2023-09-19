@@ -8,7 +8,11 @@ public class Tile {
         this.tileState = tileState;
     }
 
-    public void updateTileState(TileState tileState) {
+    public TileState getTileState() {
+        return tileState;
+    }
+
+    public void setTileState(TileState tileState) {
         this.tileState = tileState;
     }
 

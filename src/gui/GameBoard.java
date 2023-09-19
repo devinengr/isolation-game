@@ -1,22 +1,35 @@
 package gui;
 
 import tile.Tile;
+import tile.TileState;
 
 public final class GameBoard {
 
     private static GameBoard gameBoard;
 
-    public static final int ROWS = 8;
-    public static final int COLS = 6;
+    public static final int ROWS = 6;
+    public static final int COLS = 8;
 
-    private Tile[][] grid;
+    private GameCell[][] grid;
     private int tileWidth;
     private int tileHeight;
 
     private GameBoard() {
-        grid = new Tile[ROWS][COLS];
-        tileWidth = 50;
-        tileHeight = 50;
+        this.tileWidth = 50;
+        this.tileHeight = 50;
+        grid = new GameCell[ROWS][COLS];
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                // todo temp
+                if (row % 2 == 0) {
+                    grid[row][col] = new GameCell(new Tile(TileState.TOKEN_STATE), tileWidth, tileHeight);
+                } else {
+                    grid[row][col] = new GameCell(new Tile(TileState.START_STATE), tileWidth, tileHeight);
+                }
+                // todo
+                // grid[row][col] = new GameCell(new Tile(TileState.TOKEN_STATE), tileWidth, tileHeight);
+            }
+        }
     }
 
     public int getTileWidth() {
@@ -27,12 +40,12 @@ public final class GameBoard {
         return tileHeight;
     }
 
-    public Tile getTile(int row, int col) {
+    public GameCell getGameCell(int row, int col) {
         return grid[row][col];
     }
 
-    public void setTile(Tile tile, int row, int col) {
-        grid[row][col] = tile;
+    public Tile getTile(int row, int col) {
+        return grid[row][col].getTile();
     }
 
     public static GameBoard getSingleton() {

@@ -1,4 +1,3 @@
-import gui.GameBoard;
 import gui.GameWindow;
 
 import javax.swing.*;

@@ -18,14 +18,14 @@ public class GameWindow {
     }
 
     public void create() {
-        int tileWidth = GameBoard.getSingleton().getTileWidth();
-        int tileHeight = GameBoard.getSingleton().getTileHeight();
-
-        for (int i = 0; i < 48; i++) {
-            panel.add(new GameCell());
+        for (int row = 0; row < GameBoard.ROWS; row++) {
+            for (int col = 0; col < GameBoard.COLS; col++) {
+                panel.add(GameBoard.getSingleton().getGameCell(row, col));
+            }
         }
-
         frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
