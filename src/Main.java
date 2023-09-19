@@ -1,9 +1,15 @@
 import gui.GameBoard;
+import gui.GameWindow;
+
+import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        GameBoard board = GameBoard.getSingleton();
+        SwingUtilities.invokeLater(() -> {
+            GameWindow window = new GameWindow();
+            window.create();
+        });
     }
 
 }
