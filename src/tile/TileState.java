@@ -6,11 +6,11 @@ import java.awt.*;
 
 public enum TileState {
 
-    PLAYER_TOKEN_STATE(Color.LIGHT_GRAY, null),
+    PLAYER_TOKEN_STATE(Color.DARK_GRAY, null),
     PLAYER_START_STATE(Color.GREEN, null),
-    BLANK_STATE(Color.GRAY, null),
-    START_STATE(Color.YELLOW, null),
-    TOKEN_STATE(Color.CYAN, null),
+    BLANK_STATE(Color.WHITE, null),
+    START_STATE(Color.WHITE, null),
+    TOKEN_STATE(Color.LIGHT_GRAY, null),
     ;
 
     private Color color;

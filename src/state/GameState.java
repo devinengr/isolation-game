@@ -2,6 +2,7 @@ package state;
 
 import gui.GameBoard;
 import gui.GameCell;
+import gui.GameWindow;
 import tile.Tile;
 import tile.TileState;
 
@@ -28,17 +29,17 @@ public final class GameState {
         return gameState;
     }
 
-    private void initializePlayer(Tile tile) {
+    private void initializePlayer(Tile tile, PlayerType playerType, int playerNumber) {
         tile.setTileState(TileState.PLAYER_TOKEN_STATE);
-        Player player = new Player(PlayerType.YOU, tile);
+        Player player = new Player(playerType, tile, playerNumber);
         player.setTile(tile);
         players.add(player);
     }
 
-    public void initializeGame() {
+    public void initializeGame(PlayerType playerOne, PlayerType playerTwo) {
         GameBoard board = GameBoard.getSingleton();
-        initializePlayer(board.getTile(2, 0));
-        initializePlayer(board.getTile(GameBoard.ROWS - 3, GameBoard.COLS - 1));
+        initializePlayer(board.getTile(2, 0), playerOne, 1);
+        initializePlayer(board.getTile(GameBoard.ROWS - 3, GameBoard.COLS - 1), playerTwo, 2);
     }
 
     public void updateState(Tile tile) {
@@ -55,7 +56,8 @@ public final class GameState {
                         removeToken(tile);
                         Player newPlayer = players.get(currentPlayerIndex);
                         if (!playerCanMove(newPlayer)) {
-                            // todo this player has lost the game
+                            updatePlayerTurn();
+                            GameWindow.getSingleton().showWinnerMenu(players.get(currentPlayerIndex), players);
                         }
                     }
                     break;

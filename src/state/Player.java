@@ -5,11 +5,13 @@ import tile.Tile;
 public class Player {
 
     private PlayerType playerType;
+    private int playerNumber;
     private Tile tile;
 
-    public Player(PlayerType playerType, Tile tile) {
+    public Player(PlayerType playerType, Tile tile, int playerNumber) {
         this.playerType = playerType;
         this.tile = tile;
+        this.playerNumber = playerNumber;
     }
 
     public PlayerType getPlayerType() {
@@ -22,6 +24,10 @@ public class Player {
 
     public Tile getTile() {
         return tile;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 
 }
