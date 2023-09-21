@@ -1,10 +1,20 @@
 package tile;
 
+import gui.GameCell;
+
 public class Tile {
 
     private TileState tileState;
+    private int x;
+    private int y;
 
-    public Tile(TileState tileState) {
+    public Tile(TileState tileState, int x, int y) {
+        this.tileState = tileState;
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setTileState(TileState tileState) {
         this.tileState = tileState;
     }
 
@@ -12,8 +22,12 @@ public class Tile {
         return tileState;
     }
 
-    public void setTileState(TileState tileState) {
-        this.tileState = tileState;
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
 }

@@ -1,12 +1,10 @@
 package tile;
 
+import state.Player;
+
 public class TileUpdater {
 
-    public void movePlayer(Direction dir) {
-
-    }
-
-    public void updateTiles() {
+    public void movePlayer(Player player, Tile tile) {
 
     }
 

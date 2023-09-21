@@ -1,4 +1,6 @@
+import gui.GameBoard;
 import gui.GameWindow;
+import state.GameState;
 
 import javax.swing.*;
 
@@ -8,6 +10,8 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             GameWindow window = new GameWindow();
             window.create();
+            GameState gameState = GameState.getSingleton();
+            gameState.initializeGame();
         });
     }
 

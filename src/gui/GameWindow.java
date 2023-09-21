@@ -1,5 +1,8 @@
 package gui;
 
+import tile.Tile;
+import tile.TileState;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,15 +21,11 @@ public class GameWindow {
     }
 
     public void create() {
-        for (int row = 0; row < GameBoard.ROWS; row++) {
-            for (int col = 0; col < GameBoard.COLS; col++) {
-                panel.add(GameBoard.getSingleton().getGameCell(row, col));
-            }
-        }
+        GameBoard.getSingleton().initializeBoard(panel);
         frame.pack();
-        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
