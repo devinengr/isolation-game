@@ -1,16 +1,16 @@
 package state;
 
-import tile.Tile;
+import gui.GameCell;
 
 public class Player {
 
     private PlayerType playerType;
     private int playerNumber;
-    private Tile tile;
+    private GameCell cell;
 
-    public Player(PlayerType playerType, Tile tile, int playerNumber) {
+    public Player(PlayerType playerType, GameCell cell, int playerNumber) {
         this.playerType = playerType;
-        this.tile = tile;
+        this.cell = cell;
         this.playerNumber = playerNumber;
     }
 
@@ -18,12 +18,12 @@ public class Player {
         return playerType;
     }
 
-    public void setTile(Tile tile) {
-        this.tile = tile;
+    public void setCell(GameCell cell) {
+        this.cell = cell;
     }
 
-    public Tile getTile() {
-        return tile;
+    public GameCell getCell() {
+        return cell;
     }
 
     public int getPlayerNumber() {

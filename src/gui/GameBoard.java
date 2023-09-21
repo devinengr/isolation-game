@@ -1,59 +1,65 @@
 package gui;
 
-import tile.Tile;
-import tile.TileState;
+import observer.GameStateSubject;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public final class GameBoard {
-
-    private static GameBoard gameBoard;
+public class GameBoard extends JPanel {
 
     public static final int ROWS = 6;
     public static final int COLS = 8;
 
+    private GameStateSubject subject;
     private GameCell[][] grid;
-    private int tileWidth;
-    private int tileHeight;
 
-    private GameBoard() {
-        grid = new GameCell[ROWS][COLS];
-        tileWidth = 50;
-        tileHeight = 50;
+    public GameBoard(GameStateSubject subject) {
+        initialize(subject);
+        createPanel();
+        createCellGrid();
     }
 
-    public int getTileWidth() {
-        return tileWidth;
+    private void initialize(GameStateSubject subject) {
+        this.subject = subject;
+        this.grid = new GameCell[ROWS][COLS];
     }
 
-    public int getTileHeight() {
-        return tileHeight;
+    private void createPanel() {
+        this.setLayout(new GridLayout(ROWS, COLS));
     }
 
-    public Tile getTile(int row, int col) {
-        return grid[row][col].getTile();
-    }
-
-    public void setTile(TileState tileState, int row, int col) {
-        grid[row][col].getTile().setTileState(tileState);
-    }
-
-    public void initializeBoard(JPanel panel) {
+    private void createCellGrid() {
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
-                GameCell cell = new GameCell(new Tile(TileState.TOKEN_STATE, row, col), row, col, tileWidth, tileHeight);
-                cell.addMouseListener(cell);
-                panel.add(cell);
-                grid[row][col] = cell;
+                GameCell cell = createCell(row, col);
+                addCellComponent(cell);
             }
         }
     }
 
-    public static GameBoard getSingleton() {
-        if (gameBoard == null) {
-            gameBoard = new GameBoard();
+    private GameCell createCell(int row, int col) {
+        GameCell cell = new GameCell(row, col);
+        grid[row][col] = cell;
+        return cell;
+    }
+
+    private void addCellComponent(GameCell cell) {
+        this.add(cell);
+        cell.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                subject.cellClicked(cell);
+            }
+        });
+    }
+
+    public GameCell getCell(int x, int y) {
+        if (x < 0 ||  x >= ROWS || y < 0 || y >= COLS) {
+            return null;
         }
-        return gameBoard;
+        return grid[x][y];
     }
 
 }

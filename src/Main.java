@@ -1,20 +1,38 @@
+import gui.GameBoard;
 import gui.GameWindow;
-import state.GameState;
-import state.PlayerType;
-
-import javax.swing.*;
+import observer.*;
+import state.MoveValidator;
 
 public class Main {
 
+    private GameStateSubject subject;
+    private MoveValidator validator;
+    private GameWindow window;
+    private GameBoard board;
+
     private void run() {
-        SwingUtilities.invokeLater(() -> {
-            GameWindow window = GameWindow.getSingleton();
-            window.create();
-            PlayerType playerType1 = window.showPlayerSelectionMenu(1);
-            PlayerType playerType2 = window.showPlayerSelectionMenu(2);
-            GameState gameState = GameState.getSingleton();
-            gameState.initializeGame(playerType1, playerType2);
-        });
+        initialize();
+        registerObservers();
+        begin();
+    }
+
+    private void initialize() {
+        subject = new GameStateSubject();
+        window = new GameWindow(subject);
+        board = window.getBoard();
+        validator = new MoveValidator(board);
+    }
+
+    private void registerObservers() {
+        subject.registerObserver(new GameStartObserver());
+        subject.registerObserver(new GameOverObserver());
+        subject.registerObserver(new PlayerMoveObserver(validator));
+        subject.registerObserver(new TokenRemoveObserver());
+    }
+
+    private void begin() {
+        // todo tell the subject to call notifyObservers
+        // todo have GameStartObserver check for the PLAYER_SELECT state
     }
 
     public static void main(String[] args) {

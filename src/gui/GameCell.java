@@ -1,74 +1,46 @@
 package gui;
 
-import state.GameState;
-import state.Player;
-import state.PlayerType;
-import tile.Tile;
-import tile.TileState;
-
-import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class GameCell extends JPanel implements MouseListener {
+public class GameCell extends JPanel {
+
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
 
     private int x;
     private int y;
-    private int cellWidth;
-    private int cellHeight;
-    private Tile tile;
+    private CellState cellState;
 
-    public GameCell(Tile tile, int x, int y, int cellWidth, int cellHeight) {
-        this.tile = tile;
-        this.x = x;
-        this.y = y;
-        this.cellWidth = cellWidth;
-        this.cellHeight = cellHeight;
+    public GameCell(int x, int y) {
+        initialize(x, y);
+        createPanelComponents();
     }
 
-    public Tile getTile() {
-        return tile;
+    private void initialize(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.cellState = CellState.TOKEN_STATE;
+    }
+
+    private void createPanelComponents() {
+        this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(tile.getTileState().getColor());
-        g.fillRect(0, 0, cellWidth, cellHeight);
-        this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        g.setColor(cellState.getColor());
+        g.fillRect(0, 0, WIDTH, HEIGHT);
     }
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(cellWidth, cellHeight);
+        return new Dimension(WIDTH, HEIGHT);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-
+    public CellState getCellState() {
+        return cellState;
     }
 
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-        GameState.getSingleton().updateState(GameBoard.getSingleton().getTile(x, y));
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
-    }
 }
