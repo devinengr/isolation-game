@@ -1,7 +1,10 @@
 import gui.GameBoard;
 import gui.GameWindow;
 import observer.*;
-import state.MoveValidator;
+import observer.action.TokenRemoveObserver;
+import observer.action.PlayerMoveObserver;
+import observer.state.GameStateSubject;
+import observer.action.MoveValidator;
 
 public class Main {
 

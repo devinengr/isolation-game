@@ -1,7 +1,7 @@
-package observer;
+package observer.state;
 
-import state.MoveType;
-import state.Player;
+import observer.action.MoveType;
+import observer.action.Player;
 
 public class GameStateHandler {
 
@@ -33,6 +33,18 @@ public class GameStateHandler {
 
     public GameState getGameState() {
         return gameState;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public void setCurrentMove(MoveType currentMove) {
+        this.currentMove = currentMove;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
 }

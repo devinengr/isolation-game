@@ -1,6 +1,6 @@
 package gui;
 
-import observer.GameStateSubject;
+import observer.state.GameStateSubject;
 
 import javax.swing.*;
 import java.awt.*;

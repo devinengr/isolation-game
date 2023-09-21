@@ -1,6 +1,8 @@
-package observer;
+package observer.state;
 
 import gui.GameCell;
+import observer.Observer;
+import observer.state.GameStateHandler;
 
 import java.util.ArrayList;
 import java.util.List;

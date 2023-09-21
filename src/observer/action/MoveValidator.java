@@ -1,4 +1,4 @@
-package state;
+package observer.action;
 
 import gui.CellState;
 import gui.GameBoard;

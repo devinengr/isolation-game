@@ -43,4 +43,8 @@ public class GameCell extends JPanel {
         return cellState;
     }
 
+    public void setCellState(CellState cellState) {
+        this.cellState = cellState;
+    }
+
 }
