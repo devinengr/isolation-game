@@ -1,4 +1,4 @@
-package observer.state;
+package state;
 
 public enum GameState {
 

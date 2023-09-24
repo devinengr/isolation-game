@@ -1,4 +1,4 @@
-package observer.action;
+package action;
 
 public enum MoveType {
 

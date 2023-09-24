@@ -1,10 +1,12 @@
 import gui.GameBoard;
 import gui.GameWindow;
 import observer.*;
-import observer.action.TokenRemoveObserver;
-import observer.action.PlayerMoveObserver;
-import observer.state.GameStateSubject;
-import observer.action.MoveValidator;
+import observer.TokenRemoveObserver;
+import observer.PlayerMoveObserver;
+import state.GameStateSubject;
+import action.MoveValidator;
+
+import javax.swing.*;
 
 public class Main {
 
@@ -27,19 +29,20 @@ public class Main {
     }
 
     private void registerObservers() {
-        subject.registerObserver(new GameStartObserver());
-        subject.registerObserver(new GameOverObserver());
         subject.registerObserver(new PlayerMoveObserver(validator));
-        subject.registerObserver(new TokenRemoveObserver());
+        subject.registerObserver(new TokenRemoveObserver(validator));
+        subject.registerObserver(new GameOverObserver());
+        subject.registerObserver(new GameStartObserver());
     }
 
     private void begin() {
-        // todo tell the subject to call notifyObservers
-        // todo have GameStartObserver check for the PLAYER_SELECT state
+        subject.notifyObservers(board.getCell(0, 0));
     }
 
     public static void main(String[] args) {
-        new Main().run();
+        SwingUtilities.invokeLater(() -> {
+            new Main().run();
+        });
     }
 
 }

@@ -1,8 +1,7 @@
-package observer.state;
+package state;
 
 import gui.GameCell;
 import observer.Observer;
-import observer.state.GameStateHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,9 @@ public class GameStateSubject {
         observers.add(observer);
     }
 
+    // todo differentiate between cell click and ai move
+    // todo maybe make cellClicked notify, and maybe make some aiFunc notify
+    // todo if so, remove notifyObservers
     public void notifyObservers(GameCell cell) {
         for (Observer observer : observers) {
             observer.update(cell, gameStateHandler);

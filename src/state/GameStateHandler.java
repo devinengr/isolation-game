@@ -1,7 +1,7 @@
-package observer.state;
+package state;
 
-import observer.action.MoveType;
-import observer.action.Player;
+import action.MoveType;
+import action.Player;
 
 public class GameStateHandler {
 
@@ -13,6 +13,15 @@ public class GameStateHandler {
 
     public GameStateHandler() {
         this.gameState = GameState.PLAYER_SELECT;
+        this.currentMove = MoveType.MOVE_PLAYER_TOKEN;
+    }
+
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
+    }
+
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
     }
 
     public Player getPlayer1() {
@@ -37,6 +46,14 @@ public class GameStateHandler {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public void updateCurrentPlayer() {
+        if (currentPlayer == player1) {
+            currentPlayer = player2;
+        } else {
+            currentPlayer = player1;
+        }
     }
 
     public void setCurrentMove(MoveType currentMove) {

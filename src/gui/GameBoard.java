@@ -1,6 +1,6 @@
 package gui;
 
-import observer.state.GameStateSubject;
+import state.GameStateSubject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +40,7 @@ public class GameBoard extends JPanel {
     }
 
     private GameCell createCell(int row, int col) {
-        GameCell cell = new GameCell(row, col);
+        GameCell cell = new GameCell(this, row, col);
         grid[row][col] = cell;
         return cell;
     }
@@ -55,11 +55,19 @@ public class GameBoard extends JPanel {
         });
     }
 
-    public GameCell getCell(int x, int y) {
-        if (x < 0 ||  x >= ROWS || y < 0 || y >= COLS) {
+    public GameCell getCell(int row, int col) {
+        if (row < 0 ||  row >= ROWS || col < 0 || col >= COLS) {
             return null;
         }
-        return grid[x][y];
+        return grid[row][col];
+    }
+
+    public void reset() {
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                grid[row][col].setCellState(CellState.TOKEN_STATE);
+            }
+        }
     }
 
 }

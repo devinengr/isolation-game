@@ -1,4 +1,4 @@
-package observer.action;
+package action;
 
 import gui.GameCell;
 
@@ -16,6 +16,10 @@ public class Player {
 
     public PlayerType getPlayerType() {
         return playerType;
+    }
+
+    public void setPlayerType(PlayerType playerType) {
+        this.playerType = playerType;
     }
 
     public void setCell(GameCell cell) {

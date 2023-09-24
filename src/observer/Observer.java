@@ -1,7 +1,7 @@
 package observer;
 
 import gui.GameCell;
-import observer.state.GameStateHandler;
+import state.GameStateHandler;
 
 public interface Observer {
 

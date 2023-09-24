@@ -8,18 +8,20 @@ public class GameCell extends JPanel {
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
 
-    private int x;
-    private int y;
+    private GameBoard gameBoard;
+    private int col;
+    private int row;
     private CellState cellState;
 
-    public GameCell(int x, int y) {
-        initialize(x, y);
+    public GameCell(GameBoard gameBoard, int row, int col) {
+        this.gameBoard = gameBoard;
+        initialize(row, col);
         createPanelComponents();
     }
 
-    private void initialize(int x, int y) {
-        this.x = x;
-        this.y = y;
+    private void initialize(int row, int col) {
+        this.row = row;
+        this.col = col;
         this.cellState = CellState.TOKEN_STATE;
     }
 
@@ -45,6 +47,19 @@ public class GameCell extends JPanel {
 
     public void setCellState(CellState cellState) {
         this.cellState = cellState;
+        this.repaint();
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public int getRow() {
+        return row;
     }
 
 }

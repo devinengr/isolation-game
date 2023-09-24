@@ -1,10 +1,11 @@
-package observer.action;
+package observer;
 
 import gui.CellState;
 import gui.GameCell;
-import observer.Observer;
-import observer.state.GameState;
-import observer.state.GameStateHandler;
+import action.MoveType;
+import action.MoveValidator;
+import state.GameState;
+import state.GameStateHandler;
 
 public class PlayerMoveObserver implements Observer {
 
@@ -20,13 +21,17 @@ public class PlayerMoveObserver implements Observer {
             if (gameStateHandler.getCurrentMove() == MoveType.MOVE_PLAYER_TOKEN) {
                 GameCell fromCell = gameStateHandler.getCurrentPlayer().getCell();
                 if (moveValidator.validateMove(fromCell, toCell)) {
-                    gameStateHandler.setCurrentMove(MoveType.REMOVE_TILE_TOKEN);
-                    gameStateHandler.getCurrentPlayer().setCell(toCell);
-                    fromCell.setCellState(CellState.TOKEN_STATE);
-                    toCell.setCellState(CellState.PLAYER_STATE);
+                    updateGameState(gameStateHandler, fromCell, toCell);
                 }
             }
         }
+    }
+
+    private void updateGameState(GameStateHandler gameStateHandler, GameCell fromCell, GameCell toCell) {
+        gameStateHandler.setCurrentMove(MoveType.REMOVE_TILE_TOKEN);
+        gameStateHandler.getCurrentPlayer().setCell(toCell);
+        fromCell.setCellState(CellState.TOKEN_STATE);
+        toCell.setCellState(CellState.PLAYER_STATE);
     }
 
 }

@@ -1,4 +1,4 @@
-package observer.action;
+package action;
 
 import gui.CellState;
 import gui.GameBoard;
@@ -27,11 +27,11 @@ public class MoveValidator {
 
     public List<GameCell> validMoves(GameCell fromCell) {
         List<GameCell> validMoves = new ArrayList<>();
-        int x = fromCell.getX();
-        int y = fromCell.getY();
-        for (int row = y - 1; row < y + 1; row++) {
-            for (int col = x - 1; col < x + 1; col++) {
-                GameCell cell = gameBoard.getCell(row, col);
+        int row = fromCell.getRow();
+        int col = fromCell.getCol();
+        for (int rowI = row - 1; rowI <= row + 1; rowI++) {
+            for (int colI = col - 1; colI <= col + 1; colI++) {
+                GameCell cell = gameBoard.getCell(rowI, colI);
                 if (cell != null) {
                     if (cell.getCellState() == CellState.TOKEN_STATE) {
                         validMoves.add(cell);
