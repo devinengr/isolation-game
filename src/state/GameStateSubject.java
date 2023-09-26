@@ -33,18 +33,4 @@ public class GameStateSubject {
         }
     }
 
-    public void aiMoved(GameCell cell) {
-        notifyObservers(cell);
-        // todo implement way to run through an AI observer
-        // todo make it work cleanly for 2 AI observers (so they can each play w/o manual cell clicks)
-        // todo add a bit of a delay between AI moves
-        // todo add a AIObserver
-        //      todo put code in updatePlayer in GameStateHandler to call notifyObservers
-        //      todo add a state to check if current state is PlayerChanged
-        //      todo have AIObserver check PlayerChanged
-        //      todo check if updated current player type is an AI
-        //      todo if so, run through AI algorithm
-        //      todo call aiClicked
-    }
-
 }
