@@ -10,10 +10,16 @@ public class GameStateHandler {
     private Player currentPlayer;
     private MoveType currentMove;
     private GameState gameState;
+    private GameStateSubject subject;
 
-    public GameStateHandler() {
+    public GameStateHandler(GameStateSubject subject) {
         this.gameState = GameState.PLAYER_SELECT;
         this.currentMove = MoveType.MOVE_PLAYER_TOKEN;
+        this.subject = subject;
+    }
+
+    public GameStateSubject getSubject() {
+        return subject;
     }
 
     public void setPlayer1(Player player1) {

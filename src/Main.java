@@ -3,6 +3,8 @@ import gui.GameWindow;
 import observer.*;
 import observer.TokenRemoveObserver;
 import observer.PlayerMoveObserver;
+import observer.ai.AIRandomMoveObserver;
+import observer.ai.AIRandomTokenObserver;
 import state.GameStateSubject;
 import action.MoveValidator;
 
@@ -31,8 +33,10 @@ public class Main {
     private void registerObservers() {
         subject.registerObserver(new PlayerMoveObserver(validator));
         subject.registerObserver(new TokenRemoveObserver(validator));
-        subject.registerObserver(new GameOverObserver());
         subject.registerObserver(new GameStartObserver());
+        subject.registerObserver(new AIRandomMoveObserver(validator));
+        subject.registerObserver(new AIRandomTokenObserver(validator));
+        subject.registerObserver(new GameOverObserver());
     }
 
     private void begin() {
@@ -40,9 +44,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new Main().run();
-        });
+        SwingUtilities.invokeLater(() -> new Main().run());
     }
 
 }

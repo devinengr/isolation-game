@@ -1,5 +1,6 @@
 package observer;
 
+import action.PlayerType;
 import gui.CellState;
 import gui.GameCell;
 import action.MoveType;
@@ -19,9 +20,11 @@ public class PlayerMoveObserver implements Observer {
     public void update(GameCell toCell, GameStateHandler gameStateHandler) {
         if (gameStateHandler.getGameState() == GameState.IN_PROGRESS) {
             if (gameStateHandler.getCurrentMove() == MoveType.MOVE_PLAYER_TOKEN) {
-                GameCell fromCell = gameStateHandler.getCurrentPlayer().getCell();
-                if (moveValidator.validateMove(fromCell, toCell)) {
-                    updateGameState(gameStateHandler, fromCell, toCell);
+                if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.YOU) {
+                    GameCell fromCell = gameStateHandler.getCurrentPlayer().getCell();
+                    if (moveValidator.validateMove(fromCell, toCell)) {
+                        updateGameState(gameStateHandler, fromCell, toCell);
+                    }
                 }
             }
         }

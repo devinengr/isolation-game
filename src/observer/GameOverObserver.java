@@ -20,8 +20,9 @@ public class GameOverObserver implements Observer {
     }
 
     private void updateGameState(GameStateHandler gameStateHandler, GameCell cell) {
-        cell.getGameBoard().reset();
+        gameStateHandler.getCurrentPlayer().getCell().getGameBoard().reset();
         gameStateHandler.setGameState(GameState.PLAYER_SELECT);
+        gameStateHandler.getSubject().notifyObservers(cell.getGameBoard().getCell(0, 0));
     }
 
 }

@@ -24,8 +24,8 @@ public class GameStartObserver implements Observer {
     }
 
     private void initialize(GameCell cell) {
-        this.cell1 = cell.getGameBoard().getCell(3, 0);
-        this.cell2 = cell.getGameBoard().getCell(GameBoard.ROWS - 2, GameBoard.COLS -1);
+        this.cell1 = cell.getGameBoard().getCell(2, 0);
+        this.cell2 = cell.getGameBoard().getCell(GameBoard.ROWS - 3, GameBoard.COLS - 1);
         this.player1 = createPlayer(cell1, 1);
         this.player2 = createPlayer(cell2, 2);
     }

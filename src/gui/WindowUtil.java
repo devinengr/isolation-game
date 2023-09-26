@@ -25,6 +25,9 @@ public final class WindowUtil {
                 null,
                 new Object[] {"You", "Randy", "Luigi"},
                 "");
+        if (result == -1) {
+            return getPlayerType(player);
+        }
         return PlayerType.values()[result];
     }
 

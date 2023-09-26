@@ -1,13 +1,8 @@
 package gui;
 
-import action.Player;
-import action.PlayerType;
-import state.GameState;
 import state.GameStateSubject;
 
 import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 public class GameWindow {
 
