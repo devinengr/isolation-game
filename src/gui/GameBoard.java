@@ -50,7 +50,7 @@ public class GameBoard extends JPanel {
         cell.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                subject.cellClicked(cell);
+                new Thread(() -> subject.cellClicked(cell)).start();
             }
         });
     }
