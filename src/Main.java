@@ -10,14 +10,15 @@ import action.MoveValidator;
 
 import javax.swing.*;
 
-public class Main {
+public class Main implements Runnable {
 
     private GameStateSubject subject;
     private MoveValidator validator;
     private GameWindow window;
     private GameBoard board;
 
-    private void run() {
+    @Override
+    public void run() {
         initialize();
         registerObservers();
         begin();
@@ -44,7 +45,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Main().run());
+        SwingUtilities.invokeLater(() -> {
+            new Thread(new Main()).start();
+        });
     }
 
 }

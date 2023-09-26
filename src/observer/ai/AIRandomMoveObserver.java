@@ -24,6 +24,11 @@ public class AIRandomMoveObserver implements Observer {
     public void update(GameCell cell, GameStateHandler gameStateHandler) {
         if (gameStateHandler.getGameState() == GameState.IN_PROGRESS) {
             if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.RANDOM) {
+                try {
+                    Thread.sleep(300);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 GameCell fromCell = gameStateHandler.getCurrentPlayer().getCell();
                 GameCell toCell = getRandomCell(fromCell);
                 updateGameState(gameStateHandler, fromCell, toCell);
