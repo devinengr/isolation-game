@@ -6,14 +6,13 @@ import observer.PlayerMoveObserver;
 import observer.ai.AIRandomMoveObserver;
 import observer.ai.AIRandomTokenObserver;
 import state.GameStateSubject;
-import action.MoveValidator;
+import util.GameBoardUtil;
 
 import javax.swing.*;
 
 public class Main implements Runnable {
 
     private GameStateSubject subject;
-    private MoveValidator validator;
     private GameWindow window;
     private GameBoard board;
 
@@ -28,15 +27,15 @@ public class Main implements Runnable {
         subject = new GameStateSubject();
         window = new GameWindow(subject);
         board = window.getBoard();
-        validator = new MoveValidator(board);
+        GameBoardUtil.setGameBoard(board);
     }
 
     private void registerObservers() {
-        subject.registerObserver(new PlayerMoveObserver(validator));
-        subject.registerObserver(new TokenRemoveObserver(validator));
+        subject.registerObserver(new PlayerMoveObserver());
+        subject.registerObserver(new TokenRemoveObserver());
         subject.registerObserver(new GameStartObserver());
-        subject.registerObserver(new AIRandomMoveObserver(validator));
-        subject.registerObserver(new AIRandomTokenObserver(validator));
+        subject.registerObserver(new AIRandomMoveObserver());
+        subject.registerObserver(new AIRandomTokenObserver());
         subject.registerObserver(new GameOverObserver());
     }
 

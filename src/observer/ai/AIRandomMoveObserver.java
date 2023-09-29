@@ -1,7 +1,7 @@
 package observer.ai;
 
 import action.MoveType;
-import action.MoveValidator;
+import util.GameBoardUtil;
 import action.PlayerType;
 import gui.CellState;
 import gui.GameCell;
@@ -13,12 +13,6 @@ import java.util.List;
 import java.util.Random;
 
 public class AIRandomMoveObserver implements Observer {
-
-    private MoveValidator moveValidator;
-
-    public AIRandomMoveObserver(MoveValidator moveValidator) {
-        this.moveValidator = moveValidator;
-    }
 
     @Override
     public void update(GameCell cell, GameStateHandler gameStateHandler) {
@@ -37,7 +31,7 @@ public class AIRandomMoveObserver implements Observer {
     }
 
     private GameCell getRandomCell(GameCell fromCell) {
-        List<GameCell> moves = moveValidator.validMoves(fromCell);
+        List<GameCell> moves = GameBoardUtil.validMoves(fromCell);
         int randomIndex = new Random().nextInt(0, moves.size());
         return moves.get(randomIndex);
     }

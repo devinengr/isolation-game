@@ -4,17 +4,11 @@ import action.PlayerType;
 import gui.CellState;
 import gui.GameCell;
 import action.MoveType;
-import action.MoveValidator;
+import util.GameBoardUtil;
 import state.GameState;
 import state.GameStateHandler;
 
 public class PlayerMoveObserver implements Observer {
-
-    private MoveValidator moveValidator;
-
-    public PlayerMoveObserver(MoveValidator moveValidator) {
-        this.moveValidator = moveValidator;
-    }
 
     @Override
     public void update(GameCell toCell, GameStateHandler gameStateHandler) {
@@ -22,7 +16,7 @@ public class PlayerMoveObserver implements Observer {
             if (gameStateHandler.getCurrentMove() == MoveType.MOVE_PLAYER_TOKEN) {
                 if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.YOU) {
                     GameCell fromCell = gameStateHandler.getCurrentPlayer().getCell();
-                    if (moveValidator.validateMove(fromCell, toCell)) {
+                    if (GameBoardUtil.validateMove(fromCell, toCell)) {
                         updateGameState(gameStateHandler, fromCell, toCell);
                     }
                 }

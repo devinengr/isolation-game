@@ -1,7 +1,7 @@
 package observer.ai;
 
 import action.MoveType;
-import action.MoveValidator;
+import util.GameBoardUtil;
 import action.PlayerType;
 import gui.CellState;
 import gui.GameCell;
@@ -11,17 +11,11 @@ import state.GameStateHandler;
 
 public class AIRandomTokenObserver implements Observer {
 
-    private MoveValidator moveValidator;
-
-    public AIRandomTokenObserver(MoveValidator moveValidator) {
-        this.moveValidator = moveValidator;
-    }
-
     @Override
     public void update(GameCell cell, GameStateHandler gameStateHandler) {
         if (gameStateHandler.getGameState() == GameState.IN_PROGRESS) {
             if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.RANDOM) {
-                GameCell toRemove = moveValidator.randomTokenCell();
+                GameCell toRemove = GameBoardUtil.randomTokenCell();
                 updateGameState(gameStateHandler, toRemove);
             }
         }
@@ -31,7 +25,7 @@ public class AIRandomTokenObserver implements Observer {
         gameStateHandler.updateCurrentPlayer();
         gameStateHandler.setCurrentMove(MoveType.MOVE_PLAYER_TOKEN);
         cell.setCellState(CellState.BLANK_STATE);
-        if (moveValidator.numberOfValidMoves(gameStateHandler.getCurrentPlayer().getCell()) <= 0) {
+        if (GameBoardUtil.numberOfValidMoves(gameStateHandler.getCurrentPlayer().getCell()) <= 0) {
             gameStateHandler.setGameState(GameState.GAME_OVER);
         } else {
             gameStateHandler.getSubject().notifyObservers(cell.getGameBoard().getCell(0, 0));

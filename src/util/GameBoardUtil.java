@@ -1,4 +1,4 @@
-package action;
+package util;
 
 import gui.CellState;
 import gui.GameBoard;
@@ -8,15 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MoveValidator {
+public final class GameBoardUtil {
 
-    private GameBoard gameBoard;
+    private static GameBoard gameBoard;
 
-    public MoveValidator(GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
+    private GameBoardUtil() {}
+
+    public static void setGameBoard(GameBoard gameBoard) {
+        GameBoardUtil.gameBoard = gameBoard;
     }
 
-    public List<GameCell> tokenCells() {
+    public static List<GameCell> tokenCells() {
         List<GameCell> tokenCells = new ArrayList<>();
         for (int row = 0; row < GameBoard.ROWS; row++) {
             for (int col = 0; col < GameBoard.COLS; col++) {
@@ -29,23 +31,23 @@ public class MoveValidator {
         return tokenCells;
     }
 
-    public GameCell randomTokenCell() {
+    public static GameCell randomTokenCell() {
         List<GameCell> tokenCells = tokenCells();
         int randomIndex = new Random().nextInt(0, tokenCells.size());
         return tokenCells.get(randomIndex);
     }
 
-    public boolean validateMove(GameCell fromCell, GameCell toCell) {
+    public static boolean validateMove(GameCell fromCell, GameCell toCell) {
         List<GameCell> validMoves = validMoves(fromCell);
         return validMoves.contains(toCell);
     }
 
-    public int numberOfValidMoves(GameCell fromCell) {
+    public static int numberOfValidMoves(GameCell fromCell) {
         List<GameCell> validMoves = validMoves(fromCell);
         return validMoves.size();
     }
 
-    public List<GameCell> validMoves(GameCell fromCell) {
+    public static List<GameCell> validMoves(GameCell fromCell) {
         List<GameCell> validMoves = new ArrayList<>();
         int row = fromCell.getRow();
         int col = fromCell.getCol();
