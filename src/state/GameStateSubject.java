@@ -17,6 +17,10 @@ public class GameStateSubject {
         this.gameStateHandler = new GameStateHandler(this);
     }
 
+    public GameStateHandler getGameStateHandler() {
+        return gameStateHandler;
+    }
+
     public void registerObserver(Observer observer) {
         observers.add(observer);
     }

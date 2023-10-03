@@ -3,7 +3,7 @@ package action;
 public enum PlayerType {
 
     YOU,
-    RANDOM,
-    AI,
+    AI_RANDOM,
+    AI_ADVERSARIAL,
 
 }

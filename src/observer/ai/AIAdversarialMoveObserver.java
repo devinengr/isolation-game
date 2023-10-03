@@ -1,40 +1,41 @@
 package observer.ai;
 
 import action.MoveType;
-import util.GameBoardUtil;
 import action.PlayerType;
 import gui.CellState;
 import gui.GameCell;
 import observer.Observer;
 import state.GameState;
 import state.GameStateHandler;
+import util.GameBoardUtil;
 
 import java.util.List;
 import java.util.Random;
 
-public class AIRandomMoveObserver implements Observer {
+public class AIAdversarialMoveObserver implements Observer {
 
     @Override
     public void update(GameCell cell, GameStateHandler gameStateHandler) {
         if (gameStateHandler.getGameState() == GameState.IN_PROGRESS) {
-            if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.AI_RANDOM) {
+            if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.AI_ADVERSARIAL) {
                 try {
                     Thread.sleep(300);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 GameCell fromCell = gameStateHandler.getCurrentPlayer().getCell();
-                GameCell toCell = getRandomCell(fromCell);
-                updateGameState(gameStateHandler, fromCell, toCell);
+//                GameCell toCell = getRandomCell(fromCell);
+//                updateGameState(gameStateHandler, fromCell, toCell);
+                // todo implement
             }
         }
     }
 
-    private GameCell getRandomCell(GameCell fromCell) {
-        List<GameCell> moves = GameBoardUtil.validMoves(fromCell);
-        int randomIndex = new Random().nextInt(0, moves.size());
-        return moves.get(randomIndex);
-    }
+//    private GameCell getRandomCell(GameCell fromCell) {
+//        List<GameCell> moves = GameBoardUtil.validMoves(fromCell);
+//        int randomIndex = new Random().nextInt(0, moves.size());
+//        return moves.get(randomIndex);
+//    }
 
     private void updateGameState(GameStateHandler gameStateHandler, GameCell fromCell, GameCell toCell) {
         gameStateHandler.setCurrentMove(MoveType.REMOVE_TILE_TOKEN);

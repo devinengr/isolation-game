@@ -3,6 +3,8 @@ import gui.GameWindow;
 import observer.*;
 import observer.TokenRemoveObserver;
 import observer.PlayerMoveObserver;
+import observer.ai.AIAdversarialMoveObserver;
+import observer.ai.AIAdversarialTokenObserver;
 import observer.ai.AIRandomMoveObserver;
 import observer.ai.AIRandomTokenObserver;
 import state.GameStateSubject;
@@ -34,6 +36,8 @@ public class Main implements Runnable {
         subject.registerObserver(new PlayerMoveObserver());
         subject.registerObserver(new TokenRemoveObserver());
         subject.registerObserver(new GameStartObserver());
+        subject.registerObserver(new AIAdversarialMoveObserver());
+        subject.registerObserver(new AIAdversarialTokenObserver());
         subject.registerObserver(new AIRandomMoveObserver());
         subject.registerObserver(new AIRandomTokenObserver());
         subject.registerObserver(new GameOverObserver());

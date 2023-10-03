@@ -1,22 +1,23 @@
 package observer.ai;
 
 import action.MoveType;
-import util.GameBoardUtil;
 import action.PlayerType;
 import gui.CellState;
 import gui.GameCell;
 import observer.Observer;
 import state.GameState;
 import state.GameStateHandler;
+import util.GameBoardUtil;
 
-public class AIRandomTokenObserver implements Observer {
+public class AIAdversarialTokenObserver implements Observer {
 
     @Override
     public void update(GameCell cell, GameStateHandler gameStateHandler) {
         if (gameStateHandler.getGameState() == GameState.IN_PROGRESS) {
-            if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.AI_RANDOM) {
-                GameCell toRemove = GameBoardUtil.randomTokenCell();
-                updateGameState(gameStateHandler, toRemove);
+            if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.AI_ADVERSARIAL) {
+//                GameCell toRemove = GameBoardUtil.randomTokenCell();
+//                updateGameState(gameStateHandler, toRemove);
+                // todo implement
             }
         }
     }

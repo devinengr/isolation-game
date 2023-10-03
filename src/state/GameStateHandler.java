@@ -42,6 +42,13 @@ public class GameStateHandler {
         return currentPlayer;
     }
 
+    public Player getWaitingPlayer() {
+        if (currentPlayer == player1) {
+            return player2;
+        }
+        return player1;
+    }
+
     public MoveType getCurrentMove() {
         return currentMove;
     }
