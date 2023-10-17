@@ -1,5 +1,5 @@
 import gui.GameBoard;
-import gui.GameWindow;
+import gui.gui.GUIWindow;
 import observer.*;
 import observer.TokenRemoveObserver;
 import observer.PlayerMoveObserver;
@@ -7,16 +7,19 @@ import observer.ai.AIAdversarialMoveObserver;
 import observer.ai.AIAdversarialTokenObserver;
 import observer.ai.AIRandomMoveObserver;
 import observer.ai.AIRandomTokenObserver;
+import state.GameState;
 import state.GameStateSubject;
 import util.GameBoardUtil;
+import util.HeuristicUtil;
 
 import javax.swing.*;
 
 public class Main implements Runnable {
 
     private GameStateSubject subject;
-    private GameWindow window;
+    private GUIWindow window;
     private GameBoard board;
+    private GameState gameState;
 
     @Override
     public void run() {
@@ -26,10 +29,13 @@ public class Main implements Runnable {
     }
 
     private void initialize() {
-        subject = new GameStateSubject();
-        window = new GameWindow(subject);
-        board = window.getBoard();
+        gameState = new GameState();
+        board = gameState.getGameBoard();
+        subject = new GameStateSubject(gameState);
+        window = new GUIWindow(subject);
+
         GameBoardUtil.setGameBoard(board);
+        HeuristicUtil.setGameStateHandler(subject.getGameStateHandler());
     }
 
     private void registerObservers() {

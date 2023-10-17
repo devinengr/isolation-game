@@ -1,53 +1,44 @@
 package gui;
 
-import javax.swing.*;
-import java.awt.*;
+import gui.gui.GUICell;
 
-public class GameCell extends JPanel {
-
-    public static final int WIDTH = 50;
-    public static final int HEIGHT = 50;
+public class GameCell {
 
     private GameBoard gameBoard;
     private int col;
     private int row;
     private CellState cellState;
+    private GUICell guiCell;
 
     public GameCell(GameBoard gameBoard, int row, int col) {
         this.gameBoard = gameBoard;
-        initialize(row, col);
-        createPanelComponents();
-    }
-
-    private void initialize(int row, int col) {
         this.row = row;
         this.col = col;
         this.cellState = CellState.TOKEN_STATE;
     }
 
-    private void createPanelComponents() {
-        this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(cellState.getColor());
-        g.fillRect(0, 0, WIDTH, HEIGHT);
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(WIDTH, HEIGHT);
+    /**
+     * use this function if this cell is associated with the main state.
+     * this allows the cell to repaint the gui cell when its state is updated.
+     */
+    public void setGUICell(GUICell guiCell) {
+        this.guiCell = guiCell;
     }
 
     public CellState getCellState() {
         return cellState;
     }
 
+    /**
+     * sets the cell state. if this cell is associated with a gui cell,
+     * it will repaint the gui cell to update the UI.
+     * @param cellState the cell state to set the cell to
+     */
     public void setCellState(CellState cellState) {
         this.cellState = cellState;
-        this.repaint();
+        if (guiCell != null) {
+            guiCell.repaint();
+        }
     }
 
     public GameBoard getGameBoard() {

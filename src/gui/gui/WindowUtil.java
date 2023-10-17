@@ -1,4 +1,4 @@
-package gui;
+package gui.gui;
 
 import action.Player;
 import action.PlayerType;

@@ -1,7 +1,6 @@
 package state;
 
 import action.PlayerType;
-import gui.GameBoard;
 import gui.GameCell;
 import observer.Observer;
 
@@ -13,8 +12,8 @@ public class GameStateSubject {
     private List<Observer> observers = new ArrayList<>();
     private GameStateHandler gameStateHandler;
 
-    public GameStateSubject() {
-        this.gameStateHandler = new GameStateHandler(this);
+    public GameStateSubject(GameState gameState) {
+        this.gameStateHandler = new GameStateHandler(this, gameState);
     }
 
     public GameStateHandler getGameStateHandler() {
@@ -32,7 +31,7 @@ public class GameStateSubject {
     }
 
     public void cellClicked(GameCell cell) {
-        if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.YOU) {
+        if (gameStateHandler.getGameState().getCurrentPlayer().getPlayerType() == PlayerType.YOU) {
             notifyObservers(cell);
         }
     }

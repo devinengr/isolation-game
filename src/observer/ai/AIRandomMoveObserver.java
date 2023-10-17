@@ -1,12 +1,12 @@
 package observer.ai;
 
-import action.MoveType;
+import state.GameState;
+import state.GameStateUpdater;
 import util.GameBoardUtil;
 import action.PlayerType;
-import gui.CellState;
 import gui.GameCell;
 import observer.Observer;
-import state.GameState;
+import state.GameStateType;
 import state.GameStateHandler;
 
 import java.util.List;
@@ -16,16 +16,21 @@ public class AIRandomMoveObserver implements Observer {
 
     @Override
     public void update(GameCell cell, GameStateHandler gameStateHandler) {
-        if (gameStateHandler.getGameState() == GameState.IN_PROGRESS) {
-            if (gameStateHandler.getCurrentPlayer().getPlayerType() == PlayerType.AI_RANDOM) {
+        GameState gameState = gameStateHandler.getGameState();
+        if (gameState.getGameState() == GameStateType.IN_PROGRESS) {
+            if (gameState.getCurrentPlayer().getPlayerType() == PlayerType.AI_RANDOM) {
+
+                // add a pause so the user can watch AIs play vs each other
                 try {
                     Thread.sleep(300);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                GameCell fromCell = gameStateHandler.getCurrentPlayer().getCell();
+
+                // move the player
+                GameCell fromCell = gameState.getCurrentPlayer().getCell();
                 GameCell toCell = getRandomCell(fromCell);
-                updateGameState(gameStateHandler, fromCell, toCell);
+                GameStateUpdater.movePlayer(gameState, fromCell, toCell);
             }
         }
     }
@@ -34,13 +39,6 @@ public class AIRandomMoveObserver implements Observer {
         List<GameCell> moves = GameBoardUtil.validMoves(fromCell);
         int randomIndex = new Random().nextInt(0, moves.size());
         return moves.get(randomIndex);
-    }
-
-    private void updateGameState(GameStateHandler gameStateHandler, GameCell fromCell, GameCell toCell) {
-        gameStateHandler.setCurrentMove(MoveType.REMOVE_TILE_TOKEN);
-        gameStateHandler.getCurrentPlayer().setCell(toCell);
-        fromCell.setCellState(CellState.TOKEN_STATE);
-        toCell.setCellState(CellState.PLAYER_STATE);
     }
 
 }
