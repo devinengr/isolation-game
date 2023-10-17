@@ -1,6 +1,6 @@
-package gui;
+package board;
 
-import gui.gui.GUICell;
+import gui.GUICell;
 
 public class GameCell {
 

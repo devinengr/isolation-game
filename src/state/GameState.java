@@ -1,8 +1,8 @@
 package state;
 
-import action.MoveType;
-import action.Player;
-import gui.GameBoard;
+import player.MoveType;
+import player.Player;
+import board.GameBoard;
 
 public class GameState {
 

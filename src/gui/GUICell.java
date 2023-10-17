@@ -1,6 +1,6 @@
-package gui.gui;
+package gui;
 
-import gui.GameCell;
+import board.GameCell;
 
 import javax.swing.*;
 import java.awt.*;

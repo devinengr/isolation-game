@@ -1,11 +1,11 @@
 package state;
 
-import action.MoveType;
-import action.Player;
-import gui.CellState;
-import gui.GameBoard;
-import gui.GameCell;
-import gui.gui.WindowUtil;
+import player.MoveType;
+import player.Player;
+import board.CellState;
+import board.GameBoard;
+import board.GameCell;
+import gui.WindowUtil;
 import util.GameBoardUtil;
 
 public final class GameStateUpdater {
@@ -48,14 +48,22 @@ public final class GameStateUpdater {
     }
 
     // todo add check winner?
-    public static void checkGameOver(GameState state) {
+    public static void checkStatus(GameState state) {
         if (GameBoardUtil.numberOfValidMoves(state.getCurrentPlayer().getCell()) <= 0) {
             state.setGameState(GameStateType.GAME_OVER);
         }
     }
 
-    // todo valid?
-    public static void playerSelect(GameState gameState, GameCell cell) {
+    public static void gameOver(GameState gameState) {
+        gameState.updateCurrentPlayer();
+        if (WindowUtil.getPlayAgain(gameState.getCurrentPlayer())) {
+            playerSelect(gameState);
+        } else {
+            System.exit(0);
+        }
+    }
+
+    public static void playerSelect(GameState gameState) {
         gameState.getGameBoard().reset();
         gameState.setGameState(GameStateType.PLAYER_SELECT);
     }

@@ -1,14 +1,9 @@
-import gui.GameBoard;
-import gui.gui.GUIWindow;
-import observer.*;
-import observer.TokenRemoveObserver;
-import observer.PlayerMoveObserver;
-import observer.ai.AIAdversarialMoveObserver;
-import observer.ai.AIAdversarialTokenObserver;
-import observer.ai.AIRandomMoveObserver;
-import observer.ai.AIRandomTokenObserver;
+import board.GameBoard;
+import gui.GUIWindow;
 import state.GameState;
 import state.GameStateSubject;
+import state.GameStateType;
+import state.GameStateUpdater;
 import util.GameBoardUtil;
 import util.HeuristicUtil;
 
@@ -24,8 +19,7 @@ public class Main implements Runnable {
     @Override
     public void run() {
         initialize();
-        registerObservers();
-        begin();
+        beginLoop();
     }
 
     private void initialize() {
@@ -38,19 +32,20 @@ public class Main implements Runnable {
         HeuristicUtil.setGameStateHandler(subject.getGameStateHandler());
     }
 
-    private void registerObservers() {
-        subject.registerObserver(new PlayerMoveObserver());
-        subject.registerObserver(new TokenRemoveObserver());
-        subject.registerObserver(new GameStartObserver());
-        subject.registerObserver(new AIAdversarialMoveObserver());
-        subject.registerObserver(new AIAdversarialTokenObserver());
-        subject.registerObserver(new AIRandomMoveObserver());
-        subject.registerObserver(new AIRandomTokenObserver());
-        subject.registerObserver(new GameOverObserver());
-    }
+    private void beginLoop() {
+        // set initial game state
+        GameStateUpdater.playerSelect(gameState);
 
-    private void begin() {
-        subject.notifyObservers(board.getCell(0, 0));
+        while (true) {
+            if (gameState.getGameState() == GameStateType.PLAYER_SELECT) {
+                GameStateUpdater.startGame(gameState);
+            } else if (gameState.getGameState() == GameStateType.IN_PROGRESS) {
+                gameState.getCurrentPlayer().move(gameState);
+                gameState.getCurrentPlayer().removeToken(gameState);
+            } else if (gameState.getGameState() == GameStateType.GAME_OVER) {
+                GameStateUpdater.gameOver(gameState);
+            }
+        }
     }
 
     public static void main(String[] args) {

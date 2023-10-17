@@ -1,6 +1,7 @@
-package action;
+package player;
 
-import gui.GameCell;
+import board.GameCell;
+import state.GameState;
 
 public class Player {
 
@@ -12,6 +13,14 @@ public class Player {
         this.playerType = playerType;
         this.cell = cell;
         this.playerNumber = playerNumber;
+    }
+
+    public void move(GameState gameState) {
+        playerType.move(gameState);
+    }
+
+    public void removeToken(GameState gameState) {
+        playerType.removeToken(gameState);
     }
 
     public PlayerType getPlayerType() {

@@ -1,7 +1,7 @@
 package state;
 
-import action.PlayerType;
-import gui.GameCell;
+import player.PlayerType;
+import board.GameCell;
 import observer.Observer;
 
 import java.util.ArrayList;

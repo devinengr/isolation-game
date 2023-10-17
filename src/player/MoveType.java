@@ -1,4 +1,4 @@
-package action;
+package player;
 
 public enum MoveType {
 

@@ -1,4 +1,4 @@
-package gui.gui;
+package gui;
 
 import state.GameStateSubject;
 

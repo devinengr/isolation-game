@@ -1,6 +1,6 @@
 package state;
 
-import action.MoveType;
+import player.MoveType;
 
 public class GameStateHandler {
 

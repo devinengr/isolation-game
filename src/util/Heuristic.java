@@ -1,6 +1,6 @@
 package util;
 
-import gui.GameCell;
+import board.GameCell;
 
 public class Heuristic implements Comparable<Heuristic> {
 

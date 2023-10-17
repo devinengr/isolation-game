@@ -1,7 +1,7 @@
-package gui.gui;
+package gui;
 
-import action.Player;
-import action.PlayerType;
+import player.Player;
+import player.PlayerType;
 
 import javax.swing.*;
 

@@ -1,7 +1,7 @@
 package util;
 
-import action.Player;
-import gui.GameCell;
+import player.Player;
+import board.GameCell;
 import state.GameStateHandler;
 
 import java.util.*;

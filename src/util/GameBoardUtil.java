@@ -1,8 +1,8 @@
 package util;
 
-import gui.CellState;
-import gui.GameBoard;
-import gui.GameCell;
+import board.CellState;
+import board.GameBoard;
+import board.GameCell;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ public final class GameBoardUtil {
 
     private GameBoardUtil() {}
 
+    // todo update this to use a specified state
     public static void setGameBoard(GameBoard gameBoard) {
         GameBoardUtil.gameBoard = gameBoard;
     }

@@ -1,7 +1,7 @@
-package gui.gui;
+package gui;
 
-import gui.GameBoard;
-import gui.GameCell;
+import board.GameBoard;
+import board.GameCell;
 import state.GameStateSubject;
 
 import javax.swing.*;
