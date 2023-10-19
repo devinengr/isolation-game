@@ -10,16 +10,9 @@ import java.util.Random;
 
 public final class GameBoardUtil {
 
-    private static GameBoard gameBoard;
-
     private GameBoardUtil() {}
 
-    // todo update this to use a specified state
-    public static void setGameBoard(GameBoard gameBoard) {
-        GameBoardUtil.gameBoard = gameBoard;
-    }
-
-    public static List<GameCell> tokenCells() {
+    public static List<GameCell> tokenCells(GameBoard gameBoard) {
         List<GameCell> tokenCells = new ArrayList<>();
         for (int row = 0; row < GameBoard.ROWS; row++) {
             for (int col = 0; col < GameBoard.COLS; col++) {
@@ -32,23 +25,23 @@ public final class GameBoardUtil {
         return tokenCells;
     }
 
-    public static GameCell randomTokenCell() {
-        List<GameCell> tokenCells = tokenCells();
+    public static GameCell randomTokenCell(GameBoard gameBoard) {
+        List<GameCell> tokenCells = tokenCells(gameBoard);
         int randomIndex = new Random().nextInt(0, tokenCells.size());
         return tokenCells.get(randomIndex);
     }
 
-    public static boolean validateMove(GameCell fromCell, GameCell toCell) {
-        List<GameCell> validMoves = validMoves(fromCell);
+    public static boolean validateMove(GameBoard gameBoard, GameCell fromCell, GameCell toCell) {
+        List<GameCell> validMoves = validMoves(gameBoard, fromCell);
         return validMoves.contains(toCell);
     }
 
-    public static int numberOfValidMoves(GameCell fromCell) {
-        List<GameCell> validMoves = validMoves(fromCell);
+    public static int numberOfValidMoves(GameBoard gameBoard, GameCell fromCell) {
+        List<GameCell> validMoves = validMoves(gameBoard, fromCell);
         return validMoves.size();
     }
 
-    public static List<GameCell> validMoves(GameCell fromCell) {
+    public static List<GameCell> validMoves(GameBoard gameBoard, GameCell fromCell) {
         List<GameCell> validMoves = new ArrayList<>();
         int row = fromCell.getRow();
         int col = fromCell.getCol();

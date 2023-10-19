@@ -28,8 +28,8 @@ public final class WindowUtil {
             return getPlayerType(player);
         }
         return switch (result) {
-            case 1 -> new PlayerRandom();
-            case 2 -> new PlayerAdversarial();
+            case 1 -> new PlayerRandom(true);
+            case 2 -> new PlayerAdversarial(true);
             default -> new PlayerYou();
         };
     }

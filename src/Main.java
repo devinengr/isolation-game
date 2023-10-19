@@ -23,8 +23,6 @@ public class Main implements Runnable {
         gameState = new GameState();
         board = gameState.getGameBoard();
         window = new GUIWindow(gameState);
-
-        GameBoardUtil.setGameBoard(board);
     }
 
     private void beginLoop() {

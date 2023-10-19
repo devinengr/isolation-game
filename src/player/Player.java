@@ -13,6 +13,16 @@ public class Player {
         this.playerNumber = playerNumber;
     }
 
+    @Override
+    public Player clone() {
+        Player newPlayer = new Player(
+                playerType.clone(),
+                playerNumber
+        );
+        newPlayer.currentPlayer = currentPlayer;
+        return newPlayer;
+    }
+
     public void move(GameState gameState) {
         playerType.move(gameState);
     }

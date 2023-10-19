@@ -21,6 +21,17 @@ public class GameBoard {
         }
     }
 
+    @Override
+    public GameBoard clone() {
+        GameBoard newBoard = new GameBoard();
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                newBoard.grid[row][col] = grid[row][col].clone();
+            }
+        }
+        return newBoard;
+    }
+
     public GameCell[][] getCells() {
         return grid;
     }

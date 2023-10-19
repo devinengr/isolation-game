@@ -51,7 +51,8 @@ public final class GameStateUpdater {
     }
 
     public static void checkGameOverStatus(GameState state) {
-        if (GameBoardUtil.numberOfValidMoves(state.getCurrentPlayerCell()) <= 0) {
+        if (GameBoardUtil.numberOfValidMoves(state.getGameBoard(),
+                state.getCurrentPlayerCell()) <= 0) {
             state.setGameStateType(GameStateType.GAME_OVER);
         }
     }

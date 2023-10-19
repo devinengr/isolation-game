@@ -12,6 +12,15 @@ public class PlayerYou implements PlayerType {
     private boolean canRemoveToken = false;
     private boolean cellValidated = false;
 
+    @Override
+    public PlayerYou clone() {
+        PlayerYou newPlayer = new PlayerYou();
+        newPlayer.canMove = canMove;
+        newPlayer.canRemoveToken = canRemoveToken;
+        newPlayer.cellValidated = cellValidated;
+        return newPlayer;
+    }
+
     /**
      * add a pause while waiting for the user to click a cell
      * so the machine doesn't go bonkers checking the variables
@@ -35,7 +44,7 @@ public class PlayerYou implements PlayerType {
         if (canMove) {
             System.out.println("got it"); // todo temp
             GameCell fromCell = gameState.getCurrentPlayerCell();
-            if (GameBoardUtil.validateMove(fromCell, cell)) {
+            if (GameBoardUtil.validateMove(gameState.getGameBoard(), fromCell, cell)) {
                 GameStateUpdater.movePlayer(gameState, fromCell, cell);
                 cellValidated = true;
             }

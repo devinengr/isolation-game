@@ -1,18 +1,29 @@
 package util;
 
-import board.GameCell;
-
 public class Heuristic implements Comparable<Heuristic> {
 
     private int heuristic;
-    private GameCell gameCell;
 
-    public Heuristic(int heuristic, GameCell gameCell) {
-        this.gameCell = gameCell;
+    // storing primitives because of reference issues w/ cloning
+    private int cellRow;
+    private int cellCol;
+
+    public Heuristic(int heuristic, int cellRow, int cellCol) {
+        this.heuristic = heuristic;
+        this.cellRow = cellRow;
+        this.cellCol = cellCol;
     }
 
-    public GameCell getGameCell() {
-        return gameCell;
+    public int getHeuristic() {
+        return heuristic;
+    }
+
+    public int getCellRow() {
+        return cellRow;
+    }
+
+    public int getCellCol() {
+        return cellCol;
     }
 
     @Override

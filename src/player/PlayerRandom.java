@@ -1,5 +1,6 @@
 package player;
 
+import board.GameBoard;
 import board.GameCell;
 import state.GameState;
 import state.GameStateUpdater;
@@ -10,14 +11,28 @@ import java.util.Random;
 
 public class PlayerRandom implements PlayerType {
 
+    private boolean mainStatePlayer;
+
+    public PlayerRandom(boolean mainStatePlayer) {
+        this.mainStatePlayer = mainStatePlayer;
+    }
+
+    @Override
+    public PlayerRandom clone() {
+        return new PlayerRandom(false);
+    }
+
     /**
      * add a pause so the user can watch AIs play vs each other
      */
-    private void pause() { // todo make this conditional on main game state to prevent mock states from being hung
-        try {
-            Thread.sleep(300);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void pause() {
+        // check before pausing to prevent long pauses in non-main states being checked
+        if (mainStatePlayer) {
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -25,18 +40,18 @@ public class PlayerRandom implements PlayerType {
     public void move(GameState gameState) {
         pause();
         GameCell fromCell = gameState.getCurrentPlayerCell();
-        GameCell toCell = getRandomCell(fromCell);
+        GameCell toCell = getRandomCell(gameState.getGameBoard(), fromCell);
         GameStateUpdater.movePlayer(gameState, fromCell, toCell);
     }
 
     @Override
     public void removeToken(GameState gameState) {
-        GameCell toRemove = GameBoardUtil.randomTokenCell();
+        GameCell toRemove = GameBoardUtil.randomTokenCell(gameState.getGameBoard());
         GameStateUpdater.removeToken(gameState, toRemove);
     }
 
-    private GameCell getRandomCell(GameCell fromCell) {
-        List<GameCell> moves = GameBoardUtil.validMoves(fromCell);
+    private GameCell getRandomCell(GameBoard gameBoard, GameCell fromCell) {
+        List<GameCell> moves = GameBoardUtil.validMoves(gameBoard, fromCell);
         int randomIndex = new Random().nextInt(0, moves.size());
         return moves.get(randomIndex);
     }

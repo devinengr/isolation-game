@@ -22,6 +22,14 @@ public class GameState {
         this.gameBoard = new GameBoard();
     }
 
+    @Override
+    public GameState clone() {
+        GameState newState = new GameState();
+        newState.gameStateType = gameStateType; // enums are weird
+        newState.gameBoard = gameBoard.clone();
+        return newState;
+    }
+
     public GameBoard getGameBoard() {
         return gameBoard;
     }

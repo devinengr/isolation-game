@@ -5,8 +5,8 @@ import player.Player;
 
 public class GameCell {
 
-    private int col;
     private int row;
+    private int col;
     private CellState cellState;
     private Player player;
 
@@ -18,6 +18,14 @@ public class GameCell {
         this.row = row;
         this.col = col;
         this.cellState = CellState.TOKEN_STATE;
+    }
+
+    @Override
+    public GameCell clone() {
+        GameCell newCell = new GameCell(row, col);
+        newCell.cellState = cellState; // enums are weird
+        newCell.player = player == null ? null : player.clone();
+        return newCell;
     }
 
     /**
