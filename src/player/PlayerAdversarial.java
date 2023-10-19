@@ -10,7 +10,7 @@ public class PlayerAdversarial implements PlayerType {
     /**
      * add a pause so the user can watch AIs play vs each other
      */
-    private void pause() {
+    private void pause() { // todo make this conditional on main game state to prevent mock states from being hung
         try {
             Thread.sleep(300);
         } catch (Exception e) {

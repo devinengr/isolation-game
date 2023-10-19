@@ -15,6 +15,16 @@ public class Player {
         this.playerNumber = playerNumber;
     }
 
+    @Override
+    public Player clone() {
+        // primitive types aren't objects, no need to clone
+        Player newPlayer = new Player(
+                playerType.clone(),
+                cell.clone(),
+                playerNumber
+        );
+    }
+
     public void move(GameState gameState) {
         playerType.move(gameState);
     }

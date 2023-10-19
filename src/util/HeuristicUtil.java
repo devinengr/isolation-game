@@ -28,12 +28,6 @@ public final class HeuristicUtil {
      * @return hashmap containing cells and their heuristics.
      */
     public static GameCell getBestMove(GameState gameState) {
-        /**
-         * todo this will be used for hypothetical board states
-         * todo implement a mock board and a way to manipulate it,
-         * todo then pass in the preferred board to check here
-         * todo don't use current player / prev player, use cells instead
-         */
         GameCell fromCell = gameState.getCurrentPlayer().getCell();
         int numFromMoves = GameBoardUtil.numberOfValidMoves(fromCell);
         List<Heuristic> heuristics = new ArrayList<>();
@@ -58,6 +52,9 @@ public final class HeuristicUtil {
          *
          * todo this is where adversarial search comes in (i think)
          */
+
+        GameState newState = new GameState();
+
         Player opponent = gameState.getWaitingPlayer();
         int validCurrent = GameBoardUtil.numberOfValidMoves(opponent.getCell());
         List<Heuristic> heuristics = new ArrayList<>();

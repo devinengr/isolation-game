@@ -19,6 +19,20 @@ public class GameState {
         this.gameBoard = new GameBoard();
     }
 
+    @Override
+    public GameState clone() {
+        GameState newState = new GameState();
+        newState.player1 = player1.clone();
+        newState.player2 = player2.clone();
+        // cloning currentPlayer is an issue. we need it to
+        // match the same object as the new player1 or player2
+        newState.currentPlayer = player1 == currentPlayer ?
+                newState.player1 : newState.player2;
+        newState.currentMove = currentMove.clone();
+        newState.gameStateType = gameStateType.clone();
+        newState.gameBoard = gameBoard.clone();
+    }
+
     public GameBoard getGameBoard() {
         return gameBoard;
     }
