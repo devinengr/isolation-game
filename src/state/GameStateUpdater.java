@@ -4,7 +4,6 @@ import board.CellState;
 import board.GameBoard;
 import board.GameCell;
 import gui.WindowUtil;
-import player.MoveType;
 import player.Player;
 import util.GameBoardUtil;
 
@@ -13,15 +12,18 @@ public final class GameStateUpdater {
     private GameStateUpdater() {}
 
     public static void movePlayer(GameState state, GameCell fromCell, GameCell toCell) {
-        state.setCurrentMove(MoveType.REMOVE_TILE_TOKEN);
-        state.getCurrentPlayer().setCell(toCell);
+        // change cell's player data
+        Player currentPlayer = fromCell.getPlayer();
+        fromCell.setPlayer(null);
+        toCell.setPlayer(currentPlayer);
+
+        // set cell states
         fromCell.setCellState(CellState.TOKEN_STATE);
         toCell.setCellState(CellState.PLAYER_STATE);
     }
 
     public static void removeToken(GameState state, GameCell toRemove) {
         state.updateCurrentPlayer();
-        state.setCurrentMove(MoveType.MOVE_PLAYER_TOKEN);
         toRemove.setCellState(CellState.BLANK_STATE);
     }
 
@@ -33,23 +35,24 @@ public final class GameStateUpdater {
         Player player2 = createPlayer(cell2, 2);
 
         // initialize game state
-        state.setPlayer1(player1);
-        state.setPlayer2(player2);
-        state.setCurrentPlayer(player1);
+        player1.setCurrentPlayer(true);
+        player2.setCurrentPlayer(false);
+        cell1.setPlayer(player1);
+        cell2.setPlayer(player2);
         cell1.setCellState(CellState.PLAYER_STATE);
         cell2.setCellState(CellState.PLAYER_STATE);
-        state.setGameState(GameStateType.IN_PROGRESS);
+        state.setGameStateType(GameStateType.IN_PROGRESS);
     }
 
     private static Player createPlayer(GameCell cell, int number) {
-        Player player = new Player(null, cell, number);
+        Player player = new Player(null, number);
         player.setPlayerType(WindowUtil.getPlayerType(player));
         return player;
     }
 
     public static void checkGameOverStatus(GameState state) {
-        if (GameBoardUtil.numberOfValidMoves(state.getCurrentPlayer().getCell()) <= 0) {
-            state.setGameState(GameStateType.GAME_OVER);
+        if (GameBoardUtil.numberOfValidMoves(state.getCurrentPlayerCell()) <= 0) {
+            state.setGameStateType(GameStateType.GAME_OVER);
         }
     }
 
@@ -64,7 +67,7 @@ public final class GameStateUpdater {
 
     public static void playerSelect(GameState gameState) {
         gameState.getGameBoard().reset();
-        gameState.setGameState(GameStateType.PLAYER_SELECT);
+        gameState.setGameStateType(GameStateType.PLAYER_SELECT);
     }
 
 }

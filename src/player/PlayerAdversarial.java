@@ -21,7 +21,7 @@ public class PlayerAdversarial implements PlayerType {
     @Override
     public void move(GameState gameState) {
         pause();
-        GameCell fromCell = gameState.getCurrentPlayer().getCell();
+        GameCell fromCell = gameState.getCurrentPlayerCell();
         GameCell toCell = HeuristicUtil.getBestMove(gameState);
         GameStateUpdater.movePlayer(gameState, fromCell, toCell);
     }

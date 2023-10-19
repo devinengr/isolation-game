@@ -16,10 +16,6 @@ public class GUICell extends JPanel {
         this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
     }
 
-    public GameCell getGameCell() {
-        return cell;
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

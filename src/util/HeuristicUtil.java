@@ -28,7 +28,7 @@ public final class HeuristicUtil {
      * @return hashmap containing cells and their heuristics.
      */
     public static GameCell getBestMove(GameState gameState) {
-        GameCell fromCell = gameState.getCurrentPlayer().getCell();
+        GameCell fromCell = gameState.getCurrentPlayerCell();
         int numFromMoves = GameBoardUtil.numberOfValidMoves(fromCell);
         List<Heuristic> heuristics = new ArrayList<>();
         for (GameCell toCell : GameBoardUtil.validMoves(fromCell)) {
@@ -53,12 +53,12 @@ public final class HeuristicUtil {
          * todo this is where adversarial search comes in (i think)
          */
 
-        GameState newState = new GameState();
+        // todo create the game state clone here (maybe)
 
-        Player opponent = gameState.getWaitingPlayer();
-        int validCurrent = GameBoardUtil.numberOfValidMoves(opponent.getCell());
+        GameCell opponentCell = gameState.getWaitingPlayerCell();
+        int validCurrent = GameBoardUtil.numberOfValidMoves(opponentCell);
         List<Heuristic> heuristics = new ArrayList<>();
-        for (GameCell next : GameBoardUtil.validMoves(opponent.getCell())) {
+        for (GameCell next : GameBoardUtil.validMoves(opponentCell)) {
             int validNext = GameBoardUtil.numberOfValidMoves(next);
             if (validNext == 0) {
                 heuristics.add(new Heuristic(100, next));

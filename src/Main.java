@@ -32,14 +32,20 @@ public class Main implements Runnable {
         GameStateUpdater.playerSelect(gameState);
 
         while (true) {
-            if (gameState.getGameState() == GameStateType.PLAYER_SELECT) {
+            if (gameState.getGameStateType() == GameStateType.PLAYER_SELECT) {
+
                 GameStateUpdater.startGame(gameState);
-            } else if (gameState.getGameState() == GameStateType.IN_PROGRESS) {
+
+            } else if (gameState.getGameStateType() == GameStateType.IN_PROGRESS) {
+
                 gameState.getCurrentPlayer().move(gameState);
                 gameState.getCurrentPlayer().removeToken(gameState);
                 GameStateUpdater.checkGameOverStatus(gameState);
-            } else if (gameState.getGameState() == GameStateType.GAME_OVER) {
+
+            } else if (gameState.getGameStateType() == GameStateType.GAME_OVER) {
+
                 GameStateUpdater.gameOver(gameState);
+
             }
         }
     }

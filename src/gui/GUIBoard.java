@@ -49,13 +49,13 @@ public class GUIBoard extends JPanel {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         new Thread(() -> {
-                            PlayerType p1 = gameState.getPlayer1().getPlayerType();
-                            PlayerType p2 = gameState.getPlayer2().getPlayerType();
+                            PlayerType p1 = gameState.getCurrentPlayer().getPlayerType();
+                            PlayerType p2 = gameState.getWaitingPlayer().getPlayerType();
                             if (p1 instanceof PlayerYou) {
-                                ((PlayerYou) p1).cellClicked(cell);
+                                ((PlayerYou) p1).cellClicked(gameState, cell);
                             }
                             if (p2 instanceof PlayerYou) {
-                                ((PlayerYou) p2).cellClicked(cell);
+                                ((PlayerYou) p2).cellClicked(gameState, cell);
                             }
                         }).start();
                     }

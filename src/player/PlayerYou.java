@@ -8,9 +8,9 @@ import util.GameBoardUtil;
 
 public class PlayerYou implements PlayerType {
 
-    private boolean canClickCell = false;
-    private boolean cellClicked = false;
-    private GameCell cell = null;
+    private boolean canMove = false;
+    private boolean canRemoveToken = false;
+    private boolean cellValidated = false;
 
     /**
      * add a pause while waiting for the user to click a cell
@@ -31,21 +31,23 @@ public class PlayerYou implements PlayerType {
      * once the move method has been called and waiting)
      * @param cell
      */
-    public void cellClicked(GameCell cell) {
-        if (canClickCell) {
-            cellClicked = true;
-            this.cell = cell;
+    public void cellClicked(GameState gameState, GameCell cell) {
+        if (canMove) {
+            System.out.println("got it"); // todo temp
+            GameCell fromCell = gameState.getCurrentPlayerCell();
+            if (GameBoardUtil.validateMove(fromCell, cell)) {
+                GameStateUpdater.movePlayer(gameState, fromCell, cell);
+                cellValidated = true;
+            }
         }
-    }
 
-    private void startMove() {
-        canClickCell = true;
-    }
-
-    private void doneMove() {
-        cellClicked = false;
-        canClickCell = false;
-        this.cell = null;
+        else if (canRemoveToken) {
+            System.out.println("got it"); // todo temp
+            if (cell.getCellState() == CellState.TOKEN_STATE) {
+                GameStateUpdater.removeToken(gameState, cell);
+                cellValidated = true;
+            }
+        }
     }
 
     /**
@@ -56,39 +58,24 @@ public class PlayerYou implements PlayerType {
      */
     @Override
     public void move(GameState gameState) {
-        startMove();
-        // wait for cell click
-        // once clicked, validate move and break from the loop
-        while (true) {
-            if (cellClicked) {
-                System.out.println("got it");
-                GameCell fromCell = gameState.getCurrentPlayer().getCell();
-                if (GameBoardUtil.validateMove(fromCell, cell)) {
-                    GameStateUpdater.movePlayer(gameState, fromCell, cell);
-                    break;
-                }
-            }
+        canMove = true;
+        while (!cellValidated) {
+            // wait until cell has been clicked before moving on
             pause();
         }
-        doneMove();
+        cellValidated = false;
+        canMove = false;
     }
 
     @Override
     public void removeToken(GameState gameState) {
-        startMove();
-        // wait for cell click
-        // once clicked, validate move and break from the loop
-        while (true) {
-            if (cellClicked) {
-                System.out.println("got it");
-                if (cell.getCellState() == CellState.TOKEN_STATE) {
-                    GameStateUpdater.removeToken(gameState, cell);
-                    break;
-                }
-            }
+        canRemoveToken = true;
+        while (!cellValidated) {
+            // wait until cell has been clicked before moving on
             pause();
         }
-        doneMove();
+        cellValidated = false;
+        canRemoveToken = false;
     }
 
 }

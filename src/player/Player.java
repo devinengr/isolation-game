@@ -1,28 +1,16 @@
 package player;
 
-import board.GameCell;
 import state.GameState;
 
 public class Player {
 
     private PlayerType playerType;
+    private boolean currentPlayer = false;
     private int playerNumber;
-    private GameCell cell;
 
-    public Player(PlayerType playerType, GameCell cell, int playerNumber) {
+    public Player(PlayerType playerType, int playerNumber) {
         this.playerType = playerType;
-        this.cell = cell;
         this.playerNumber = playerNumber;
-    }
-
-    @Override
-    public Player clone() {
-        // primitive types aren't objects, no need to clone
-        Player newPlayer = new Player(
-                playerType.clone(),
-                cell.clone(),
-                playerNumber
-        );
     }
 
     public void move(GameState gameState) {
@@ -41,12 +29,12 @@ public class Player {
         this.playerType = playerType;
     }
 
-    public void setCell(GameCell cell) {
-        this.cell = cell;
+    public boolean isCurrentPlayer() {
+        return currentPlayer;
     }
 
-    public GameCell getCell() {
-        return cell;
+    public void setCurrentPlayer(boolean currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public int getPlayerNumber() {

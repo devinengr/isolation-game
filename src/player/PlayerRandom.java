@@ -24,7 +24,7 @@ public class PlayerRandom implements PlayerType {
     @Override
     public void move(GameState gameState) {
         pause();
-        GameCell fromCell = gameState.getCurrentPlayer().getCell();
+        GameCell fromCell = gameState.getCurrentPlayerCell();
         GameCell toCell = getRandomCell(fromCell);
         GameStateUpdater.movePlayer(gameState, fromCell, toCell);
     }

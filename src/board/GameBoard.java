@@ -15,10 +15,14 @@ public class GameBoard {
             for (int col = 0; col < COLS; col++) {
 
                 // create cell
-                GameCell cell = new GameCell(this, row, col);
+                GameCell cell = new GameCell(row, col);
                 grid[row][col] = cell;
             }
         }
+    }
+
+    public GameCell[][] getCells() {
+        return grid;
     }
 
     public GameCell getCell(int row, int col) {
@@ -32,6 +36,7 @@ public class GameBoard {
          for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
                 grid[row][col].setCellState(CellState.TOKEN_STATE);
+                grid[row][col].setPlayer(null);
             }
         }
     }

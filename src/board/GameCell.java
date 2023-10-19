@@ -1,17 +1,20 @@
 package board;
 
 import gui.GUICell;
+import player.Player;
 
 public class GameCell {
 
-    private GameBoard gameBoard;
     private int col;
     private int row;
     private CellState cellState;
+    private Player player;
+
+    // todo refreshes the gui when state is updated.
+    // todo so, do not clone this object. set the cloned object's gui cell to null.
     private GUICell guiCell;
 
-    public GameCell(GameBoard gameBoard, int row, int col) {
-        this.gameBoard = gameBoard;
+    public GameCell(int row, int col) {
         this.row = row;
         this.col = col;
         this.cellState = CellState.TOKEN_STATE;
@@ -41,16 +44,20 @@ public class GameCell {
         }
     }
 
-    public GameBoard getGameBoard() {
-        return gameBoard;
-    }
-
     public int getCol() {
         return col;
     }
 
     public int getRow() {
         return row;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
 }

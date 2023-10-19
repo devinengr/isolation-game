@@ -1,95 +1,104 @@
 package state;
 
 import board.GameBoard;
-import player.MoveType;
+import board.GameCell;
 import player.Player;
 
 public class GameState {
 
-    private Player player1;
-    private Player player2;
-    private Player currentPlayer;
-    private MoveType currentMove;
     private GameStateType gameStateType;
     private GameBoard gameBoard;
 
+    // todo references to players contained by GameCells. these are pointers
+    // todo which are not to be cloned. upon clone, point these to the new
+    // todo cells
+    // private Player player1;
+    // private Player player2;
+    // todo only implement the above if viable after getting this version working
+    // todo if implementing, implement for the player cells as well
+
     public GameState() {
         this.gameStateType = GameStateType.PLAYER_SELECT;
-        this.currentMove = MoveType.MOVE_PLAYER_TOKEN;
         this.gameBoard = new GameBoard();
-    }
-
-    @Override
-    public GameState clone() {
-        GameState newState = new GameState();
-        newState.player1 = player1.clone();
-        newState.player2 = player2.clone();
-        // cloning currentPlayer is an issue. we need it to
-        // match the same object as the new player1 or player2
-        newState.currentPlayer = player1 == currentPlayer ?
-                newState.player1 : newState.player2;
-        newState.currentMove = currentMove.clone();
-        newState.gameStateType = gameStateType.clone();
-        newState.gameBoard = gameBoard.clone();
     }
 
     public GameBoard getGameBoard() {
         return gameBoard;
     }
 
-    public void setPlayer1(Player player1) {
-        this.player1 = player1;
+    private Player findCurrentPlayer() {
+        for (GameCell cells[] : gameBoard.getCells()) {
+            for (GameCell cell : cells) {
+                if (cell.getPlayer() != null) {
+                    if (cell.getPlayer().isCurrentPlayer()) {
+                        return cell.getPlayer();
+                    }
+                }
+            }
+        }
+        return null;
     }
 
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
-    }
-
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    public Player getPlayer2() {
-        return player2;
+    private Player findWaitingPlayer() {
+        for (GameCell cells[] : gameBoard.getCells()) {
+            for (GameCell cell : cells) {
+                if (cell.getPlayer() != null) {
+                    if (!cell.getPlayer().isCurrentPlayer()) {
+                        return cell.getPlayer();
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public Player getCurrentPlayer() {
-        return currentPlayer;
+        return findCurrentPlayer();
     }
 
     public Player getWaitingPlayer() {
-        if (currentPlayer == player1) {
-            return player2;
-        }
-        return player1;
+        return findWaitingPlayer();
     }
 
-    public MoveType getCurrentMove() {
-        return currentMove;
-    }
-
-    public GameStateType getGameState() {
+    public GameStateType getGameStateType() {
         return gameStateType;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     public void updateCurrentPlayer() {
-        if (currentPlayer == player1) {
-            currentPlayer = player2;
-        } else {
-            currentPlayer = player1;
-        }
+        Player currentPlayer = findCurrentPlayer();
+        Player waitingPlayer = findWaitingPlayer();
+        currentPlayer.setCurrentPlayer(false);
+        waitingPlayer.setCurrentPlayer(true);
     }
 
-    public void setCurrentMove(MoveType currentMove) {
-        this.currentMove = currentMove;
-    }
-
-    public void setGameState(GameStateType gameStateType) {
+    public void setGameStateType(GameStateType gameStateType) {
         this.gameStateType = gameStateType;
+    }
+
+    public GameCell getCurrentPlayerCell() {
+        for (GameCell cells[] : gameBoard.getCells()) {
+            for (GameCell cell : cells) {
+                if (cell.getPlayer() != null) {
+                    if (cell.getPlayer().isCurrentPlayer()) {
+                        return cell;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public GameCell getWaitingPlayerCell() {
+        for (GameCell cells[] : gameBoard.getCells()) {
+            for (GameCell cell : cells) {
+                if (cell.getPlayer() != null) {
+                    if (!cell.getPlayer().isCurrentPlayer()) {
+                        return cell;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 }
