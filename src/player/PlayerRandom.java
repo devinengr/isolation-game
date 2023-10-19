@@ -1,9 +1,9 @@
 package player;
 
+import board.GameCell;
 import state.GameState;
 import state.GameStateUpdater;
 import util.GameBoardUtil;
-import board.GameCell;
 
 import java.util.List;
 import java.util.Random;

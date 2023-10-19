@@ -1,6 +1,6 @@
 package gui;
 
-import state.GameStateSubject;
+import state.GameState;
 
 import javax.swing.*;
 
@@ -8,8 +8,8 @@ public class GUIWindow extends JFrame {
 
     private GUIBoard guiBoard;
 
-    public GUIWindow(GameStateSubject subject) {
-        guiBoard = new GUIBoard(subject);
+    public GUIWindow(GameState gameState) {
+        guiBoard = new GUIBoard(gameState);
 
         // set board as window's panel
         this.add(guiBoard);

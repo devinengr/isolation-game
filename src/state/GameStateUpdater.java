@@ -1,11 +1,11 @@
 package state;
 
-import player.MoveType;
-import player.Player;
 import board.CellState;
 import board.GameBoard;
 import board.GameCell;
 import gui.WindowUtil;
+import player.MoveType;
+import player.Player;
 import util.GameBoardUtil;
 
 public final class GameStateUpdater {
@@ -47,8 +47,7 @@ public final class GameStateUpdater {
         return player;
     }
 
-    // todo add check winner?
-    public static void checkStatus(GameState state) {
+    public static void checkGameOverStatus(GameState state) {
         if (GameBoardUtil.numberOfValidMoves(state.getCurrentPlayer().getCell()) <= 0) {
             state.setGameState(GameStateType.GAME_OVER);
         }

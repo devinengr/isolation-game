@@ -22,13 +22,13 @@ public class PlayerAdversarial implements PlayerType {
     public void move(GameState gameState) {
         pause();
         GameCell fromCell = gameState.getCurrentPlayer().getCell();
-        GameCell toCell = HeuristicUtil.getBestMove();
+        GameCell toCell = HeuristicUtil.getBestMove(gameState);
         GameStateUpdater.movePlayer(gameState, fromCell, toCell);
     }
 
     @Override
     public void removeToken(GameState gameState) {
-        GameCell toRemove = HeuristicUtil.getBestToken();
+        GameCell toRemove = HeuristicUtil.getBestToken(gameState);
         GameStateUpdater.removeToken(gameState, toRemove);
     }
 

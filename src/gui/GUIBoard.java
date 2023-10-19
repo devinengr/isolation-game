@@ -2,7 +2,9 @@ package gui;
 
 import board.GameBoard;
 import board.GameCell;
-import state.GameStateSubject;
+import player.PlayerType;
+import player.PlayerYou;
+import state.GameState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +15,17 @@ public class GUIBoard extends JPanel {
 
     private GameBoard gameBoard;
 
-    public GUIBoard(GameStateSubject subject) {
-        this.gameBoard = subject.getGameStateHandler().getGameState().getGameBoard();
+    /**
+     * initialize the gui. take in the game state to grab:
+     * -> a list of players which are users.
+     * -> the game board.
+     * this is to register them with the gui to determine, when the
+     * user clicks, whose turn it is and if the user can click, and to
+     * map the click with the user's move.
+     * @param gameState the main game state
+     */
+    public GUIBoard(GameState gameState) {
+        this.gameBoard = gameState.getGameBoard();
 
         // set the panel layout
         this.setLayout(new GridLayout(GameBoard.ROWS, GameBoard.COLS));
@@ -37,7 +48,16 @@ public class GUIBoard extends JPanel {
                 guiCell.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        new Thread(() -> subject.cellClicked(cell)).start();
+                        new Thread(() -> {
+                            PlayerType p1 = gameState.getPlayer1().getPlayerType();
+                            PlayerType p2 = gameState.getPlayer2().getPlayerType();
+                            if (p1 instanceof PlayerYou) {
+                                ((PlayerYou) p1).cellClicked(cell);
+                            }
+                            if (p2 instanceof PlayerYou) {
+                                ((PlayerYou) p2).cellClicked(cell);
+                            }
+                        }).start();
                     }
                 });
             }

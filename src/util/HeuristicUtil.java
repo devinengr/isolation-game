@@ -1,20 +1,16 @@
 package util;
 
-import player.Player;
 import board.GameCell;
-import state.GameStateHandler;
+import player.Player;
+import state.GameState;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public final class HeuristicUtil {
 
-    private static GameStateHandler gameStateHandler;
-
     private HeuristicUtil() {}
-
-    public static void setGameStateHandler(GameStateHandler gameStateHandler) {
-        HeuristicUtil.gameStateHandler = gameStateHandler;
-    }
 
     private static GameCell getLargestHeuristic(List<Heuristic> heuristics) {
         Collections.sort(heuristics);
@@ -31,14 +27,14 @@ public final class HeuristicUtil {
      *
      * @return hashmap containing cells and their heuristics.
      */
-    public static GameCell getBestMove() {
+    public static GameCell getBestMove(GameState gameState) {
         /**
          * todo this will be used for hypothetical board states
          * todo implement a mock board and a way to manipulate it,
          * todo then pass in the preferred board to check here
          * todo don't use current player / prev player, use cells instead
          */
-        GameCell fromCell = gameStateHandler.getGameState().getCurrentPlayer().getCell();
+        GameCell fromCell = gameState.getCurrentPlayer().getCell();
         int numFromMoves = GameBoardUtil.numberOfValidMoves(fromCell);
         List<Heuristic> heuristics = new ArrayList<>();
         for (GameCell toCell : GameBoardUtil.validMoves(fromCell)) {
@@ -55,14 +51,14 @@ public final class HeuristicUtil {
         return getLargestHeuristic(heuristics);
     }
 
-    public static GameCell getBestToken() {
+    public static GameCell getBestToken(GameState gameState) {
         /**
          * todo this is incorrect. validNext represents the valid moves of the location
          * todo of the next cell, given that the opponent moved to that cell.
          *
          * todo this is where adversarial search comes in (i think)
          */
-        Player opponent = gameStateHandler.getGameState().getWaitingPlayer();
+        Player opponent = gameState.getWaitingPlayer();
         int validCurrent = GameBoardUtil.numberOfValidMoves(opponent.getCell());
         List<Heuristic> heuristics = new ArrayList<>();
         for (GameCell next : GameBoardUtil.validMoves(opponent.getCell())) {

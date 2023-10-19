@@ -1,7 +1,6 @@
 package gui;
 
-import player.Player;
-import player.PlayerType;
+import player.*;
 
 import javax.swing.*;
 
@@ -23,12 +22,16 @@ public final class WindowUtil {
                 JOptionPane.OK_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
-                new Object[] {"You", "Randy", "Luigi"},
+                new Object[] {"You", "Random", "Adversarial"},
                 "");
         if (result == -1) {
             return getPlayerType(player);
         }
-        return PlayerType.values()[result];
+        return switch (result) {
+            case 1 -> new PlayerRandom();
+            case 2 -> new PlayerAdversarial();
+            default -> new PlayerYou();
+        };
     }
 
     public static boolean getPlayAgain(Player winner) {

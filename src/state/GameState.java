@@ -1,8 +1,8 @@
 package state;
 
+import board.GameBoard;
 import player.MoveType;
 import player.Player;
-import board.GameBoard;
 
 public class GameState {
 
