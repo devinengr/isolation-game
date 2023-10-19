@@ -3,7 +3,6 @@ import gui.GUIWindow;
 import state.GameState;
 import state.GameStateType;
 import state.GameStateUpdater;
-import util.GameBoardUtil;
 
 import javax.swing.*;
 

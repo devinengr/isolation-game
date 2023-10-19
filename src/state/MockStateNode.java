@@ -10,10 +10,10 @@ public class MockStateNode {
     private MockStateNode parentState;
     private GameState gameState;
 
-    public MockStateNode(GameState state) {
+    public MockStateNode(GameState state, boolean rootState) {
         this.parentState = null;
-        this.rootState = true;
         this.gameState = state;
+        this.rootState = rootState;
     }
 
     public MockStateNode(MockStateNode parentState, GameState state) {

@@ -3,7 +3,7 @@ package player;
 import board.GameCell;
 import state.GameState;
 import state.GameStateUpdater;
-import util.HeuristicUtil;
+import util.FirstHeuristicUtil;
 
 public class PlayerAdversarial implements PlayerType {
 
@@ -36,13 +36,13 @@ public class PlayerAdversarial implements PlayerType {
     public void move(GameState gameState) {
         pause();
         GameCell fromCell = gameState.getCurrentPlayerCell();
-        GameCell toCell = HeuristicUtil.getBestMove(gameState);
+        GameCell toCell = FirstHeuristicUtil.getBestMove(gameState);
         GameStateUpdater.movePlayer(gameState, fromCell, toCell);
     }
 
     @Override
     public void removeToken(GameState gameState) {
-        GameCell toRemove = HeuristicUtil.getBestToken(gameState);
+        GameCell toRemove = FirstHeuristicUtil.getBestToken(gameState);
         GameStateUpdater.removeToken(gameState, toRemove);
     }
 

@@ -11,9 +11,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public final class HeuristicUtil {
+public final class FirstHeuristicUtil {
 
-    private HeuristicUtil() {}
+    private FirstHeuristicUtil() {}
 
     /**
      * breaks ties by picking a random cell to move to. this also
@@ -36,7 +36,7 @@ public final class HeuristicUtil {
                            heuristics.get(randomBestIndex).getCellCol() };
     }
 
-    private static int[] getLargestHeuristic(List<Heuristic> heuristics) {
+    public static int[] getLargestHeuristic(List<Heuristic> heuristics) {
         if (heuristics.size() == 0) {
             // game has probably been won after the token remove
             return null;
@@ -47,16 +47,7 @@ public final class HeuristicUtil {
         return breakTies(heuristics);
     }
 
-    /**
-     * utility function. stores all surrounding cells in a hashmap.
-     * heuristic:
-     * curr - next > 0: +1.
-     * curr - next = 0: +0.
-     * curr - next < 0: -1.
-     *
-     * @return hashmap containing cells and their heuristics.
-     */
-    public static GameCell getBestMove(GameState gameState) {
+    public static List<Heuristic> calculateFullBestMoveHeuristics(GameState gameState) {
         List<Heuristic> heuristics = new ArrayList<>();
         GameCell fromCell = gameState.getCurrentPlayerCell();
 
@@ -76,19 +67,10 @@ public final class HeuristicUtil {
             }
         }
 
-        int[] coords = getLargestHeuristic(heuristics);
-
-        if (coords == null) {
-            // game has probably been won
-            return null;
-        }
-
-        int row = coords[0];
-        int col = coords[1];
-        return gameState.getGameBoard().getCell(row, col);
+        return heuristics;
     }
 
-    public static GameCell getBestToken(GameState gameState) {
+    public static List<Heuristic> calculateFullBestTokenHeuristics(GameState gameState) {
         // for each token in a 9x9 grid, where opponent is in center:
         //      copy the game state
         //      remove token
@@ -129,7 +111,7 @@ public final class HeuristicUtil {
                     // get the opponent's best move based on the best move heuristic
                     GameCell fromCell = newState.getCurrentPlayerCell();
 
-                    GameCell toCell = HeuristicUtil.getBestMove(newState);
+                    GameCell toCell = FirstHeuristicUtil.getBestMove(newState);
                     if (toCell != null) {
                         GameStateUpdater.movePlayer(newState, fromCell, toCell);
                     } else {
@@ -158,6 +140,35 @@ public final class HeuristicUtil {
                 }
             }
         }
+
+        return heuristics;
+    }
+
+    /**
+     * utility function. stores all surrounding cells in a hashmap.
+     * heuristic:
+     * curr - next > 0: +1.
+     * curr - next = 0: +0.
+     * curr - next < 0: -1.
+     *
+     * @return hashmap containing cells and their heuristics.
+     */
+    public static GameCell getBestMove(GameState gameState) {
+        List<Heuristic> heuristics = calculateFullBestMoveHeuristics(gameState);
+
+        int[] coords = getLargestHeuristic(heuristics);
+        if (coords == null) {
+            // game has probably been won
+            return null;
+        }
+
+        int row = coords[0];
+        int col = coords[1];
+        return gameState.getGameBoard().getCell(row, col);
+    }
+
+    public static GameCell getBestToken(GameState gameState) {
+        List<Heuristic> heuristics = calculateFullBestTokenHeuristics(gameState);
 
         int[] coords = getLargestHeuristic(heuristics);
         int row = coords[0];
