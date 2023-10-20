@@ -14,6 +14,10 @@ public class Heuristic implements Comparable<Heuristic> {
         this.cellCol = cellCol;
     }
 
+    public void setHeuristic(int heuristic) {
+        this.heuristic = heuristic;
+    }
+
     public int getHeuristic() {
         return heuristic;
     }

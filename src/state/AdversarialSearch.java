@@ -1,80 +1,129 @@
 package state;
 
 import board.GameCell;
-import player.Player;
 import util.FirstHeuristicUtil;
-import util.GameBoardUtil;
 import util.Heuristic;
 import util.HeuristicPairNode;
 
-import java.util.List;
+import java.util.*;
 
 public class AdversarialSearch {
 
-    private MockStateNode rootNode;
-    private int counter = 0; // todo temp?
+    private static final int AB_MAX_MOVE_COUNT = 3;
+    private static final int AB_MAX_TOKEN_COUNT = 5;
+    private static final int ITERATIVE_DEEPENING_LEVELS = 4;
 
-    // each level = a player's turn, in which player both maxes their moves and minimizes their opponent's moves
-    // minimax
-    // 225 initial states to evaluate.
-    // 5 moves * 45 tokens to remove
-    // todo call this at the beginning, to determine the adversarial AI's next move.
-    // todo implement ID at each level, calling it each time an AI makes a move.
-    public void adversarial(GameState gameState) {
-        // todo null for HeuristicPair on root node: valid?
-        rootNode = new MockStateNode(gameState, true, null);
-        counter = 0; // todo temp?
-        evaluateForEachLevel(gameState, rootNode, 3);
+    /**
+     * perform adversarial search. wreck the opponent without
+     * grace nor honor (450mg caffeine at 12am btw)
+     * @param gameState current (actual) game state
+     * @return the MockStateNode with information about what to do next,
+     *          derived from our friend Minimax
+     */
+    public MockStateNode adversarial(GameState gameState) {
+        // clone the gameState, otherwise bad news
+        GameState copiedState = gameState.clone();
+        MockStateNode rootNode = new MockStateNode(copiedState, true, null);
+        // build a game tree that will be minimax 'ed
+        evaluateForEachLevel(rootNode);
+        // rootNode now contains a bunch of optimal moves based on heuristics.
+        // we use minimax to check the best one and back-up the values, getting
+        // the best next move to make
+        return backupValues(rootNode);
+    }
+
+    /**
+     * back up the values and return the state containing the
+     * best heuristic based on the level of depth we have checked
+     * with the minimax algorithm.
+     * @param rootNode the node with the current state
+     * @return a node with the state that the AI should move to
+     */
+    private MockStateNode backupValues(MockStateNode rootNode) {
+        // true since we are maximizing our move
+        int rootVal = rootNode.getBackedUpValue(true);
+
+        // get a child node associated with this value.
+        // if there are multiple child nodes, pick a random one
+        // to avoid bias.
+        // this node contains a game state that the AI can get
+        // the move and token removal options from.
+
+        List<MockStateNode> matchingChildren = new ArrayList<>();
+
+        for (MockStateNode child : rootNode.getChildNodes()) {
+            // doesn't matter whether true or false because
+            // the value is cached after the first run, but
+            // false is technically correct as it's one
+            // level down
+            if (child.getBackedUpValue(false) == rootVal) {
+                matchingChildren.add(child);
+            }
+        }
+
+        int randomIndex = new Random().nextInt(matchingChildren.size());
+        return matchingChildren.get(randomIndex);
     }
 
     /**
      * implements minimax and iterates through the specified number of levels
      * from the current game state to evaluate the best move. the deeper you go,
      * the more accurately the AI can determine its moves to win.
-     * @param level
+     * @param parentNode mock node of current game state
      */
-    private void evaluateForEachLevel(GameState gameState, MockStateNode parentNode, int level) {
-        // for all possible moves for the current move:
-        //      remove all (or limited number) of the best tokens. add tokens + move heuristics together.
-        //      (these will represent a level)
-        //
-        //      for each of the tokens removed:
-        //          calculate all of the opponent's moves (heuristics) and token removals for each (heuristics)
-        //          add up the combined options
-        //          (these will represent each node in a level)
-        //
-        // b-up values: sum them as they go up from the leaf nodes.
-        //      combine move and token heuristic per player
+    private void evaluateForEachLevel(MockStateNode parentNode) {
+        Queue<MockStateNode> nodeQueue = new LinkedList<>();
+        nodeQueue.add(parentNode);
+        MockStateNode next;
 
-        if (level == 0) {
-            // we've reached our goal of how deep to go
-            return;
-        }
+        // this loop will expand a single node per iteration
+        while (!nodeQueue.isEmpty()) {
+            // retrieve and remove the next node from the BFS queue to expand
+            next = nodeQueue.poll();
+            GameState gameState = next.getGameState();
+            parentNode = next;
 
-        System.out.println(counter);
-        final int ONE_MILLION = 1000000;
-        if (counter > ONE_MILLION) {
-            return;
-        }
+            // check if we have moved to the next level. if so, increment the level counter and
+            // check if we reached the iterative deepening limit
+            if (next.getNodeLevel() >= ITERATIVE_DEEPENING_LEVELS) {
+                System.out.println("moved to next level");
+                break;
+            }
 
-        Player current = gameState.getCurrentPlayer();
-        Player opponent = gameState.getWaitingPlayer();
-        int validMoveCount = GameBoardUtil.numberOfValidMoves(
-                gameState.getGameBoard(),
-                gameState.getCurrentPlayerCell());
-
-        // todo temp
-        // todo maybe count how many iterations we're at to determine
-        // todo when to cut off based on iterative deepening
-        // todo counter parameter i mean
-
-        // get all possible moves
-        for (int i = 0; i < validMoveCount; i++) {
+            // get a list of all possible moves and work from here
             List<Heuristic> moves = FirstHeuristicUtil.calculateFullBestMoveHeuristics(gameState);
+
+            // similar to AB pruning, remove non-optimal heuristics to improve
+            // efficiency, but allow a minimum set so that if there are only
+            // non-optimal moves, the AI can still make a move
+            Collections.sort(moves);
+            Collections.reverse(moves);
+
+            if (moves.size() == 0) {
+                // they won, rip the losing player
+                break;
+            }
+            int bestMove = moves.get(0).getHeuristic();
+            while (moves.size() > AB_MAX_MOVE_COUNT) {
+                moves.remove(moves.size() - 1);
+            }
+
+            // randomize the order to avoid bias
 
             // iterate through all moves to get all possible token removes for each
             for (Heuristic move : moves) {
                 List<Heuristic> tokens = FirstHeuristicUtil.calculateFullBestTokenHeuristics(gameState);
+
+                // similar to AB pruning, remove non-optimal heuristics to improve
+                // efficiency, but allow a minimum set so that if there are only
+                // non-optimal token removals, the AI can still remove a token
+                Collections.sort(tokens);
+                Collections.reverse(tokens);
+
+                int bestToken = moves.get(0).getHeuristic();
+                while (tokens.size() > AB_MAX_TOKEN_COUNT) {
+                    tokens.remove(tokens.size() - 1);
+                }
 
                 // create a copy of the current state
                 GameState newStateMove = gameState.clone();
@@ -89,8 +138,7 @@ public class AdversarialSearch {
                 // add each pair of move + token to a node and add them to the tree.
                 // this loop will hit all possible combinations of moves + token removals
                 // in a level. go deeper by setting the game state for each node,
-                // then call this method on each respective game state, decrementing the
-                // level counter.
+                // then call this method on each respective game state.
                 for (Heuristic token : tokens) {
                     HeuristicPairNode pair = new HeuristicPairNode(move, token);
 
@@ -108,12 +156,8 @@ public class AdversarialSearch {
                     MockStateNode node = new MockStateNode(newStateToken, false, pair);
                     parentNode.addChildNode(node);
 
-                    // for each node, iterate a level deeper and attach child states/nodes.
-                    // use the results to calculate the backed-up values.
-                    // todo min/max? which is which and how do we increment them?
-
-                    counter += 1; // todo temp?
-                    evaluateForEachLevel(newStateToken, node, level - 1);
+                    // add to the queue
+                    nodeQueue.add(node);
                 }
             }
         }

@@ -1,14 +1,19 @@
 package player;
 
+import board.CellState;
+import board.GameBoard;
 import board.GameCell;
 import state.AdversarialSearch;
 import state.GameState;
 import state.GameStateUpdater;
-import util.FirstHeuristicUtil;
+import state.MockStateNode;
 
 public class PlayerAdversarial implements PlayerType {
 
     private boolean mainStatePlayer;
+
+    // cached value from adversarial search, called in move()
+    private GameCell toRemove = null;
 
     @Override
     public PlayerAdversarial clone() {
@@ -37,23 +42,46 @@ public class PlayerAdversarial implements PlayerType {
     public void move(GameState gameState) {
         pause();
         GameCell fromCell = gameState.getCurrentPlayerCell();
-//        GameCell toCell = FirstHeuristicUtil.getBestMove(gameState);
-//        GameStateUpdater.movePlayer(gameState, fromCell, toCell);
 
-        // todo this won't take a while lol
-        long start = System.currentTimeMillis();
-
+        // begin adversarial search
         AdversarialSearch search = new AdversarialSearch();
-        search.adversarial(gameState);
+        MockStateNode nextState = search.adversarial(gameState);
 
-        long end = System.currentTimeMillis();
-        System.out.format("done adversarial in %s seconds\n", (end - start));
+        // get the target cell
+        // we are now waiting player, as we made opponent current
+        // during adversarial search within the bestTokenHeuristic function
+        // (bad design, i know)
+        GameCell targetCell = nextState.getGameState().getWaitingPlayerCell();
+        // need the reference to the cell in the correct game state
+        GameCell toCell = gameState.getGameBoard().getCell(
+                targetCell.getRow(), targetCell.getCol());
+
+        // check for the token cell by comparing the boards
+        for (int row = 0; row < GameBoard.ROWS; row++) {
+            for (int col = 0; col < GameBoard.COLS; col++) {
+                GameCell c1 = gameState.getGameBoard().getCell(row, col);
+                GameCell c2 = nextState.getGameState().getGameBoard().getCell(row, col);
+
+                if (c1.getCellState() == CellState.TOKEN_STATE
+                        && c2.getCellState() == CellState.BLANK_STATE) {
+                    // this was the removed token
+                    toRemove = c1;
+                    break;
+                }
+            }
+            if (toRemove != null) {
+                // gotta break outta this one too (bad design i know)
+                break;
+            }
+        }
+
+        GameStateUpdater.movePlayer(gameState, fromCell, toCell);
     }
 
     @Override
     public void removeToken(GameState gameState) {
-        GameCell toRemove = FirstHeuristicUtil.getBestToken(gameState);
         GameStateUpdater.removeToken(gameState, toRemove);
+        toRemove = null;
     }
 
 }
