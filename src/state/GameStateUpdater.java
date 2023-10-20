@@ -5,6 +5,8 @@ import board.GameBoard;
 import board.GameCell;
 import gui.WindowUtil;
 import player.Player;
+import player.PlayerAdversarialH1;
+import player.PlayerYou;
 import util.GameBoardUtil;
 
 public final class GameStateUpdater {
@@ -31,8 +33,12 @@ public final class GameStateUpdater {
         // initialize cells and players
         GameCell cell1 = state.getGameBoard().getCell(2, 0);
         GameCell cell2 = state.getGameBoard().getCell(GameBoard.ROWS - 3, GameBoard.COLS - 1);
-        Player player1 = createPlayer(cell1, 1);
-        Player player2 = createPlayer(cell2, 2);
+
+        // todo put back
+        // Player player1 = createPlayer(cell1, 1);
+        // Player player2 = createPlayer(cell2, 2);
+        Player player1 = new Player(new PlayerYou(), 1);
+        Player player2 = new Player(new PlayerAdversarialH1(true), 1);
 
         // initialize game state
         player1.setCurrentPlayer(true);
@@ -46,7 +52,9 @@ public final class GameStateUpdater {
 
     private static Player createPlayer(GameCell cell, int number) {
         Player player = new Player(null, number);
-        player.setPlayerType(WindowUtil.getPlayerType(player));
+        // todo put back
+        // player.setPlayerType(WindowUtil.getPlayerType(player));
+
         return player;
     }
 
@@ -59,11 +67,18 @@ public final class GameStateUpdater {
 
     public static void gameOver(GameState gameState) {
         gameState.updateCurrentPlayer();
-        if (WindowUtil.getPlayAgain(gameState.getCurrentPlayer())) {
-            playerSelect(gameState);
-        } else {
-            System.exit(0);
-        }
+
+        System.out.format("Player %d won!\n---\n", gameState.getCurrentPlayer().getPlayerNumber());
+
+        // todo temp. for auto testing
+        playerSelect(gameState);
+
+        // todo put back
+//        if (WindowUtil.getPlayAgain(gameState.getCurrentPlayer())) {
+//            playerSelect(gameState);
+//        } else {
+//            System.exit(0);
+//        }
     }
 
     public static void playerSelect(GameState gameState) {

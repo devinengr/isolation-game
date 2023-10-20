@@ -134,7 +134,6 @@ public final class FirstHeuristicUtil {
                     } else if (validNext == validCurrent) {
                         heuristics.add(new Heuristic(0, row, col));
                     } else if (validNext > validCurrent) {
-                        // todo temp block?
                         heuristics.add(new Heuristic(0, row, col));
                     }
                 }

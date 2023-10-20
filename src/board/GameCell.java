@@ -10,8 +10,7 @@ public class GameCell {
     private CellState cellState;
     private Player player;
 
-    // todo refreshes the gui when state is updated.
-    // todo so, do not clone this object. set the cloned object's gui cell to null.
+    // not to be cloned
     private GUICell guiCell;
 
     public GameCell(int row, int col) {

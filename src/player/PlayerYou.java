@@ -42,7 +42,6 @@ public class PlayerYou implements PlayerType {
      */
     public void cellClicked(GameState gameState, GameCell cell) {
         if (canMove) {
-            System.out.println("got it"); // todo temp
             GameCell fromCell = gameState.getCurrentPlayerCell();
             if (GameBoardUtil.validateMove(gameState.getGameBoard(), fromCell, cell)) {
                 GameStateUpdater.movePlayer(gameState, fromCell, cell);
@@ -51,7 +50,6 @@ public class PlayerYou implements PlayerType {
         }
 
         else if (canRemoveToken) {
-            System.out.println("got it"); // todo temp
             if (cell.getCellState() == CellState.TOKEN_STATE) {
                 GameStateUpdater.removeToken(gameState, cell);
                 cellValidated = true;

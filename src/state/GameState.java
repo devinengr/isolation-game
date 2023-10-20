@@ -9,14 +9,6 @@ public class GameState {
     private GameStateType gameStateType;
     private GameBoard gameBoard;
 
-    // todo references to players contained by GameCells. these are pointers
-    // todo which are not to be cloned. upon clone, point these to the new
-    // todo cells
-    // private Player player1;
-    // private Player player2;
-    // todo only implement the above if viable after getting this version working
-    // todo if implementing, implement for the player cells as well
-
     public GameState() {
         this.gameStateType = GameStateType.PLAYER_SELECT;
         this.gameBoard = new GameBoard();
