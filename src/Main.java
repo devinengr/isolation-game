@@ -27,13 +27,9 @@ public class Main implements Runnable {
     private void beginLoop() {
         // set initial game state
         GameStateUpdater.playerSelect(gameState);
-        int numMoves = 0;
-        int trial = 1;
 
         while (true) {
             if (gameState.getGameStateType() == GameStateType.PLAYER_SELECT) {
-
-                System.out.format("Trial #: %d\n", trial);
 
                 GameStateUpdater.startGame(gameState);
 
@@ -42,14 +38,9 @@ public class Main implements Runnable {
                 gameState.getCurrentPlayer().move(gameState);
                 gameState.getCurrentPlayer().removeToken(gameState);
 
-                numMoves += 1;
-
                 GameStateUpdater.checkGameOverStatus(gameState);
 
             } else if (gameState.getGameStateType() == GameStateType.GAME_OVER) {
-
-                System.out.format("Moves: %d\n", numMoves);
-                trial += 1;
 
                 GameStateUpdater.gameOver(gameState);
 
