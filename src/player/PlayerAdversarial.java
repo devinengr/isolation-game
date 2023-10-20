@@ -1,6 +1,7 @@
 package player;
 
 import board.GameCell;
+import state.AdversarialSearch;
 import state.GameState;
 import state.GameStateUpdater;
 import util.FirstHeuristicUtil;
@@ -36,8 +37,17 @@ public class PlayerAdversarial implements PlayerType {
     public void move(GameState gameState) {
         pause();
         GameCell fromCell = gameState.getCurrentPlayerCell();
-        GameCell toCell = FirstHeuristicUtil.getBestMove(gameState);
-        GameStateUpdater.movePlayer(gameState, fromCell, toCell);
+//        GameCell toCell = FirstHeuristicUtil.getBestMove(gameState);
+//        GameStateUpdater.movePlayer(gameState, fromCell, toCell);
+
+        // todo this won't take a while lol
+        long start = System.currentTimeMillis();
+
+        AdversarialSearch search = new AdversarialSearch();
+        search.adversarial(gameState);
+
+        long end = System.currentTimeMillis();
+        System.out.format("done adversarial in %s seconds\n", (end - start));
     }
 
     @Override

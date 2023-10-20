@@ -1,38 +1,40 @@
 package state;
 
-import java.util.HashMap;
-import java.util.Map;
+import util.HeuristicPairNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MockStateNode {
 
-    private boolean rootState;
-    private Map<MockStateNode, Integer> childStates = new HashMap<>();
-    private MockStateNode parentState;
+    private boolean rootNode;
+    private List<MockStateNode> childNodes = new ArrayList<>();
+    private MockStateNode parentNode;
     private GameState gameState;
+    private HeuristicPairNode heuristics;
 
-    public MockStateNode(GameState state, boolean rootState) {
-        this.parentState = null;
+    public MockStateNode(GameState state, boolean rootNode, HeuristicPairNode heuristics) {
+        this.parentNode = null;
         this.gameState = state;
-        this.rootState = rootState;
+        this.rootNode = rootNode;
+        this.heuristics = heuristics;
     }
 
-    public MockStateNode(MockStateNode parentState, GameState state) {
-        this.parentState = parentState;
-        this.rootState = false;
-        this.gameState = state;
+    public HeuristicPairNode getHeuristics() {
+        return heuristics;
     }
 
-    public boolean isRootState() {
-        return rootState;
+    public boolean isRootNode() {
+        return rootNode;
     }
 
-    public MockStateNode getParentState() {
-        return parentState;
+    public MockStateNode getParentNode() {
+        return parentNode;
     }
 
-    public void addChildState(GameState updatedState) {
-        MockStateNode node = new MockStateNode(this, updatedState);
-        childStates.put(node, -1); // -1 means the heuristic has not yet been calculated
+    public void addChildNode(MockStateNode node) {
+        childNodes.add(node);
+        node.parentNode = this;
     }
 
 }
