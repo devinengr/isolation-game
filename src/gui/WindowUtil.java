@@ -22,14 +22,15 @@ public final class WindowUtil {
                 JOptionPane.OK_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
-                new Object[] {"You", "Random", "Adversarial"},
+                new Object[] {"You", "AI Random", "AI H1", "AI H2"},
                 "");
         if (result == -1) {
             return getPlayerType(player);
         }
         return switch (result) {
             case 1 -> new PlayerRandom(true);
-            case 2 -> new PlayerAdversarial(true);
+            case 2 -> new PlayerAdversarialH1(true);
+            case 3 -> new PlayerAdversarialH2(true);
             default -> new PlayerYou();
         };
     }

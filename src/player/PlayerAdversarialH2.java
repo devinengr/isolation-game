@@ -3,12 +3,9 @@ package player;
 import board.CellState;
 import board.GameBoard;
 import board.GameCell;
-import state.AdversarialSearch;
-import state.GameState;
-import state.GameStateUpdater;
-import state.MockStateNode;
+import state.*;
 
-public class PlayerAdversarial implements PlayerType {
+public class PlayerAdversarialH2 implements PlayerType {
 
     private boolean mainStatePlayer;
 
@@ -16,11 +13,11 @@ public class PlayerAdversarial implements PlayerType {
     private GameCell toRemove = null;
 
     @Override
-    public PlayerAdversarial clone() {
-        return new PlayerAdversarial(false);
+    public PlayerAdversarialH2 clone() {
+        return new PlayerAdversarialH2(false);
     }
 
-    public PlayerAdversarial(boolean mainStatePlayer) {
+    public PlayerAdversarialH2(boolean mainStatePlayer) {
         this.mainStatePlayer = mainStatePlayer;
     }
 
@@ -44,7 +41,7 @@ public class PlayerAdversarial implements PlayerType {
         GameCell fromCell = gameState.getCurrentPlayerCell();
 
         // begin adversarial search
-        AdversarialSearch search = new AdversarialSearch();
+        AdversarialH2 search = new AdversarialH2();
         MockStateNode nextState = search.adversarial(gameState);
 
         // get the target cell

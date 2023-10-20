@@ -22,7 +22,7 @@ public final class FirstHeuristicUtil {
      * @param heuristics sorted heuristics list
      * @return a random cell from the best heuristics
      */
-    private static int[] breakTies(List<Heuristic> heuristics) {
+    public static int[] breakTies(List<Heuristic> heuristics) {
         int lastVal = Integer.MIN_VALUE;
         int numBest = 0;
         for (Heuristic heuristic : heuristics) {

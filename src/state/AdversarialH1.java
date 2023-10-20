@@ -7,7 +7,7 @@ import util.HeuristicPairNode;
 
 import java.util.*;
 
-public class AdversarialSearch {
+public class AdversarialH1 {
 
     private static final int AB_MAX_MOVE_COUNT = 3;
     private static final int AB_MAX_TOKEN_COUNT = 5;
@@ -86,7 +86,6 @@ public class AdversarialSearch {
             // check if we have moved to the next level. if so, increment the level counter and
             // check if we reached the iterative deepening limit
             if (next.getNodeLevel() >= ITERATIVE_DEEPENING_LEVELS) {
-                System.out.println("moved to next level");
                 break;
             }
 
@@ -103,7 +102,6 @@ public class AdversarialSearch {
                 // they won, rip the losing player
                 break;
             }
-            int bestMove = moves.get(0).getHeuristic();
             while (moves.size() > AB_MAX_MOVE_COUNT) {
                 moves.remove(moves.size() - 1);
             }
@@ -120,7 +118,6 @@ public class AdversarialSearch {
                 Collections.sort(tokens);
                 Collections.reverse(tokens);
 
-                int bestToken = moves.get(0).getHeuristic();
                 while (tokens.size() > AB_MAX_TOKEN_COUNT) {
                     tokens.remove(tokens.size() - 1);
                 }
